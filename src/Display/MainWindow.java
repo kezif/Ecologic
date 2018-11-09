@@ -90,15 +90,17 @@ public class MainWindow {
         GraphicsContext gc = pickCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, pickCanvas.getWidth(), pickCanvas.getWidth());
         int min = gridSize * minGrid;
-        if (x >= min && x < pickCanvas.getHeight()-min && y >= min && y < pickCanvas.getHeight()-min) {
+
             if (pX == Integer.MAX_VALUE && pY == Integer.MAX_VALUE) {
-                gc.setFill(Color.color(1, 1, 1, 0.2));
-                gc.fillRect(x, y, gridSize, gridSize);
+                if (x >= min && x < pickCanvas.getHeight()-min && y >= min && y < pickCanvas.getHeight()-min) {
+                    gc.setFill(Color.color(1, 1, 1, 0.2));
+                    gc.fillRect(x, y, gridSize, gridSize);
+                }
             } else {
                 gc.setFill(Color.color(0, 0, 0, 0.3));
                 gc.fillRect(pX, pY, gridSize, gridSize);
             }
-        }
+
     }
 
     private int pX = Integer.MAX_VALUE;
@@ -114,10 +116,13 @@ public class MainWindow {
             calcButton.setDisable(true);
             return;
         }
-        pX = x;
-        pY = y;
-        calcButton.setDisable(false);
-        MouseMoved(e);
+        int min = gridSize * minGrid;
+        if (x >= min && x < pickCanvas.getHeight()-min && y >= min && y < pickCanvas.getHeight()-min) {
+            pX = x;
+            pY = y;
+            calcButton.setDisable(false);
+            MouseMoved(e);
+        }
     }
 
     @FXML
