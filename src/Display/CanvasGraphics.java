@@ -89,12 +89,15 @@ public class CanvasGraphics {
         gc.clearRect(0,0, canvas.getWidth(),canvas.getHeight());
     }
 
-    static public void initializeGrid(Canvas c, int gridSize){
+    static public void initializeGrid(Canvas c, int gridSize, int mins){
         PixelWriter gc = c.getGraphicsContext2D().getPixelWriter();
         for (int i = gridSize; i < c.getWidth(); i+=gridSize) {
             for (int j = gridSize; j < c.getHeight(); j+=gridSize) {
                 gc.setColor(i,j,Color.BLACK);
             }
         }
+        int min = gridSize * mins;
+        GraphicsContext gcc = c.getGraphicsContext2D();
+        gcc.strokeRect(min, min, c.getHeight() - min * 2, c.getWidth() - min * 2);
     }
 }
