@@ -89,13 +89,17 @@ public class Terrain  {
         double scale = 0.00165;
         double pers = 0.14;
         int numberIter = 5;
+        double peak = 0.65;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 double val = SimplexNoise.sumOctave(numberIter, i, j, Pseed, pers, scale);
                 popMap[i][j] = (val+1)/2;
-                popMap[i][j] = popMap[i][j] > 0.65 ? popMap[i][j] : 0; //0.65
+                popMap[i][j] = popMap[i][j] > peak ? ((1 -  popMap[i][j]) * 1/(peak-0.01))/ 2 + 0.5 : 0; //get only values that > peak, normalize to 0 - 1, scale to .5 - 1
             }
         }
+
+        popMap = gridify(popMap, gridSize);
+
         if ( waterMap != null){
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -106,6 +110,26 @@ public class Terrain  {
             }
         }
         this.populationMap = popMap;
+    }
+
+    private double[][] gridify(double[][] map, int grid){
+        for (int i = 0; i < map.length; i+= grid) {
+            for (int j = 0; j < map[0].length; j+= grid) {
+                double averenge = 0;
+                for (int k = 0; k < grid; k++) {
+                    for (int l = 0; l < grid; l++) {
+                        averenge += map[i+k][j+l];
+                    }
+                }
+                averenge /= grid * grid;
+                for (int k = 0; k < grid; k++) {
+                    for (int l = 0; l < grid; l++) {
+                        map[i+k][j+l] = averenge;
+                    }
+                }
+            }
+        }
+        return map;
     }
 
     private void generateSafetyMap(){
@@ -119,6 +143,7 @@ public class Terrain  {
                 saveMap[i][j] = (val+1)/2;
             }
         }
+        saveMap = gridify(saveMap, gridSize);
         if(populationMap != null){
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -127,7 +152,7 @@ public class Terrain  {
                     }
                 }
             }
-        }
+        } else System.out.println("Generate population map first");
         this.safetyMap = saveMap;
     }
 

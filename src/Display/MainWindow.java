@@ -2,8 +2,6 @@ package Display;
 
 import Generation.Terrain;
 import Utils.Utils;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.*;
@@ -15,8 +13,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-
-import java.util.Random;
 
 
 public class MainWindow {
@@ -47,15 +43,15 @@ public class MainWindow {
         System.out.println("done");
         /*slider1.valueProperty().addListener((observable, oldValue, newValue) -> {
             terrain.setTempNumberIr((int)Math.round(newValue.doubleValue()));
-            canvasG.drawImage(terCanvas, terrain);
+            canvasG.drawHeightNwater(terCanvas, terrain);
         });
         slider2.valueProperty().addListener((observable, oldValue, newValue) -> {
             terrain.setTempScale(Math.round(newValue.doubleValue()*10));
-            canvasG.drawImage(terCanvas, terrain);
+            canvasG.drawHeightNwater(terCanvas, terrain);
         });
         slider3.valueProperty().addListener((observable, oldValue, newValue) -> {
             terrain.setTempPers(Math.round(newValue.doubleValue()*10));
-            canvasG.drawImage(terCanvas, terrain);
+            canvasG.drawHeightNwater(terCanvas, terrain);
         });*/
     }
 
@@ -67,7 +63,7 @@ public class MainWindow {
             long duration = (endTime - startTime); //timer
             System.out.println(String.format("generation in %d ms", duration / 1000000)); //timer
             startTime = System.nanoTime(); //timer
-        CanvasGraphics.drawImage(terCanvas, terrain);
+        CanvasGraphics.drawHeightNwater(terCanvas, terrain);
         CanvasGraphics.drawSity(sityCanvas, terrain);
             endTime = System.nanoTime(); //timer
             duration = (endTime - startTime); //timer
