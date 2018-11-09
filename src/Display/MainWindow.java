@@ -68,7 +68,7 @@ public class MainWindow {
             System.out.println(String.format("generation in %d ms", duration / 1000000)); //timer
             startTime = System.nanoTime(); //timer
         CanvasGraphics.drawImage(terCanvas, terrain);
-        CanvasGraphics.drawSity(sityCanvas, terrain);
+        //CanvasGraphics.drawSity(sityCanvas, terrain);
             endTime = System.nanoTime(); //timer
             duration = (endTime - startTime); //timer
             System.out.println(String.format("Draw in %d ms", duration / 1000000)); //timer
