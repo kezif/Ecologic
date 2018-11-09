@@ -13,7 +13,7 @@ public class RoadGeneration {
         int seed = new Random().nextInt();
 
         PriorityQueue<Road> q = new PriorityQueue<Road>();     //Create a priority queue of things to process, add a single seed
-        q.add(new Road(0));
+        q.add(new Road(0, 50,50,60,60 ));
         LinkedList<Road> s = new LinkedList<>();               //Create a list of segments (the result we're building)
 
         while(q.isEmpty()) {
@@ -29,10 +29,19 @@ public class RoadGeneration {
     }
 
     private static Road checkLocalConstraints(Road cur, LinkedList<Road> allRoads) {
-        return null;
+        return cur;
     }
 
     private static ArrayList<Road> GlobalGoals(Road cur, LinkedList<Road> allRoads) {
-        return new ArrayList<>();
+        ArrayList<Road> newRoads = new ArrayList<>();
+        int time = cur.getPriority();
+        float x = cur.getEx();
+        float y = cur.getEy();
+        float angle = 0;
+        for (int i = 0; i < 3; i++) {
+            newRoads.add(new Road(time++, x, y, angle));
+            angle+=60f;
+        }
+        return newRoads;
     }
 }
