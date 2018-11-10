@@ -29,8 +29,8 @@ public class MainWindow {
     public Slider slider1;
     public Slider slider2;
     public Slider slider3;
-    public CheckBox checkBudug;
-    public ComboBox comboB;
+    //public CheckBox checkBudug;
+    //public ComboBox comboB;
     public Canvas sityCanvas;
     public Canvas debugCanvas;
     public Button calcButton;
@@ -44,7 +44,7 @@ public class MainWindow {
         this.terrain = new Terrain((int) terCanvas.getWidth(), (int) terCanvas.getHeight(), (int)terCanvas.getWidth()/20);
         evalButton();
         CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize(), minGrid);
-        comboB.getItems().addAll("Terrain", "Water", "Pop Dest", "Safety");
+        //comboB.getItems().addAll("Terrain", "Water", "Pop Dest", "Safety");
         System.out.println("done");
         /*slider1.valueProperty().addListener((observable, oldValue, newValue) -> {
             terrain.setTempNumberIr((int)Math.round(newValue.doubleValue()));
@@ -141,6 +141,7 @@ public class MainWindow {
         }
        }
 
+    /*
     public void SavetoDicsButton() {
         Utils.saveToDics("stuff", terrain);
     }
@@ -160,7 +161,7 @@ public class MainWindow {
             CanvasGraphics.drawDebugImage(debugCanvas, terrain, mode);
             System.out.println(comboB.getValue());
         }
-    }
+    }*/
 
     public void calcButton() {
         //coolCalculation(pX,pY);
