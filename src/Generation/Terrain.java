@@ -110,6 +110,7 @@ public class Terrain {
         return map;
     }
 
+
     private void generateSafetyMap() {
         double saveMap[][] = new double[height][width];
         double scale = Double.parseDouble(prop.getProperty("safeMap.scale"));
@@ -165,6 +166,33 @@ public class Terrain {
 
     public int getGridSize() {
         return gridSize;
+    }
+
+
+    public void getSqareInfo(double x, double y){
+        x = stepValue(x, gridSize);
+        y = stepValue(y, gridSize);
+        double heightPers = 0;
+        double waterPers = 0;
+        double popPerst = 0;
+        double safePers = 0;
+        for (int i = (int)x; i < x+gridSize; i++) {
+            for (int j = (int)y; j < y+gridSize; j++) {
+                heightPers += heightMap[i][j];
+                waterPers += waterMap[i][j] > 0 ? 1 : 0;
+                popPerst+= populationMap[i][j];
+                safePers += safetyMap[i][j] > 0 ? 1 - safetyMap[i][j] : 0;
+            }
+        }
+        heightPers /= gridSize * gridSize;
+        waterPers /= gridSize * gridSize;
+        popPerst /= gridSize * gridSize;
+        safePers /= gridSize * gridSize;
+        safePers += waterPers*.4;
+        if(popPerst > 0)
+            System.out.println(String.format("Average height - %f\nAverage population - %f\nPermission - %f\nWater persentage - %f\n ",heightPers, popPerst, safePers, waterPers ));
+        else
+            System.out.println(String.format("Average height - %f\nAverage population - not a sity\nPermission - %f\nWater persentage - %f\n ",heightPers, safePers, waterPers ));
     }
 
 
