@@ -43,7 +43,7 @@ public class MainWindow {
         System.out.println("init");
         this.terrain = new Terrain((int) terCanvas.getWidth(), (int) terCanvas.getHeight(), (int)terCanvas.getWidth()/20);
         evalButton();
-        CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize(), minGrid);
+        CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize());
         //comboB.getItems().addAll("Terrain", "Water", "Pop Dest", "Safety");
         System.out.println("done");
         /*slider1.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -68,6 +68,7 @@ public class MainWindow {
             long duration = (endTime - startTime); //timer
             System.out.println(String.format("generation in %d ms", duration / 1000000)); //timer
             startTime = System.nanoTime(); //timer
+        CanvasGraphics.readProp();
         CanvasGraphics.drawImage(terCanvas, terrain);
         //CanvasGraphics.drawSity(sityCanvas, terrain);
             endTime = System.nanoTime(); //timer
