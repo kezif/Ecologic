@@ -94,24 +94,24 @@ public class CanvasGraphics {
 
 
     static private void drawHouseType(GraphicsContext gc, double x, double y, double size, double value) {
-        if (value < houseV)
+        if (value < Double.parseDouble(prop.getProperty("houseV")))
             gc.strokeRect(x, y, size, size);
-        else if (value < shopV)
+        else if (value < Double.parseDouble(prop.getProperty("shopV")))
             gc.strokeOval(x, y, size, size);
         else
             gc.strokePolygon(new double[]{x, x + size, x}, new double[]{y, y, y + size}, 3);
     }
 
-    static private double houseV = 0.6;
-    static private double shopV = 0.7;
+    /*static private double houseV = 0.6;
+    static private double shopV = 0.7;*/
 
     private static Color getColorFromSafety(double value) {
-        if (value < houseV)//#1B6623
-            return Color.web("#33c44e");
-        else if (value < shopV)
-            return Color.web("#00BFFF");
+        if (value < Double.parseDouble(prop.getProperty("houseV")))//#1B6623
+            return Color.web(prop.getProperty("colHouse"));
+        else if (value < Double.parseDouble(prop.getProperty("shopV")))
+            return Color.web(prop.getProperty("colShop"));
         else
-            return Color.web("#ED4337");
+            return Color.web(prop.getProperty("colFactory"));
     }
 
 
