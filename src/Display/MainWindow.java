@@ -41,41 +41,27 @@ public class MainWindow {
     @FXML
     private void initialize() {
         System.out.println("init");
-        this.terrain = new Terrain((int) terCanvas.getWidth(), (int) terCanvas.getHeight(), (int)terCanvas.getWidth()/20);
+        this.terrain = new Terrain((int) terCanvas.getWidth(), (int) terCanvas.getHeight(), (int) terCanvas.getWidth() / 20);
         evalButton();
         CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize());
-        //comboB.getItems().addAll("Terrain", "Water", "Pop Dest", "Safety");
         System.out.println("done");
-        /*slider1.valueProperty().addListener((observable, oldValue, newValue) -> {
-            terrain.setTempNumberIr((int)Math.round(newValue.doubleValue()));
-            canvasG.drawHeightNwater(terCanvas, terrain);
-        });
-        slider2.valueProperty().addListener((observable, oldValue, newValue) -> {
-            terrain.setTempScale(Math.round(newValue.doubleValue()*10));
-            canvasG.drawHeightNwater(terCanvas, terrain);
-        });
-        slider3.valueProperty().addListener((observable, oldValue, newValue) -> {
-            terrain.setTempPers(Math.round(newValue.doubleValue()*10));
-            canvasG.drawHeightNwater(terCanvas, terrain);
-        });*/
     }
 
     @FXML
     public void evalButton() {
-            long startTime = System.nanoTime(); //timer
+        long startTime = System.nanoTime(); //timer
         terrain.reroll();
-            long endTime = System.nanoTime(); //timer
-            long duration = (endTime - startTime); //timer
-            System.out.println(String.format("generation in %d ms", duration / 1000000)); //timer
-            startTime = System.nanoTime(); //timer
+        long endTime = System.nanoTime(); //timer
+        long duration = (endTime - startTime); //timer
+        System.out.println(String.format("generation in %d ms", duration / 1000000)); //timer
+        startTime = System.nanoTime(); //timer
         CanvasGraphics.readProp();
         CanvasGraphics.drawHeightNwater(terCanvas, terrain);
         CanvasGraphics.drawSity(sityCanvas, terrain);
-        //CanvasGraphics.drawSity(sityCanvas, terrain);
-            endTime = System.nanoTime(); //timer
-            duration = (endTime - startTime); //timer
-            System.out.println(String.format("Draw in %d ms", duration / 1000000)); //timer
-            System.out.println("---");
+        endTime = System.nanoTime(); //timer
+        duration = (endTime - startTime); //timer
+        System.out.println(String.format("Draw in %d ms", duration / 1000000)); //timer
+        System.out.println("---");
     }
 
 
@@ -92,16 +78,15 @@ public class MainWindow {
         GraphicsContext gc = pickCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, pickCanvas.getWidth(), pickCanvas.getWidth());
         int min = gridSize * minGrid;
-
-            if (pX == Integer.MAX_VALUE && pY == Integer.MAX_VALUE) {
-                if (x >= min && x < pickCanvas.getHeight()-min && y >= min && y < pickCanvas.getHeight()-min) {
-                    gc.setFill(Color.color(1, 1, 1, 0.2));
-                    gc.fillRect(x, y, gridSize, gridSize);
-                }
-            } else {
-                gc.setFill(Color.color(0, 0, 0, 0.3));
-                gc.fillRect(pX, pY, gridSize, gridSize);
+        if (pX == Integer.MAX_VALUE && pY == Integer.MAX_VALUE) {
+            if (x >= min && x < pickCanvas.getHeight() - min && y >= min && y < pickCanvas.getHeight() - min) {
+                gc.setFill(Color.color(1, 1, 1, 0.2));
+                gc.fillRect(x, y, gridSize, gridSize);
             }
+        } else {
+            gc.setFill(Color.color(0, 0, 0, 0.3));
+            gc.fillRect(pX, pY, gridSize, gridSize);
+        }
 
     }
 
@@ -119,7 +104,7 @@ public class MainWindow {
             return;
         }
         int min = gridSize * minGrid;
-        if (x >= min && x < pickCanvas.getHeight()-min && y >= min && y < pickCanvas.getHeight()-min) {
+        if (x >= min && x < pickCanvas.getHeight() - min && y >= min && y < pickCanvas.getHeight() - min) {
             pX = x;
             pY = y;
             calcButton.setDisable(false);
@@ -137,33 +122,12 @@ public class MainWindow {
     }
 
     public void mouseExited() {
-        if(pX == Integer.MAX_VALUE){
+        if (pX == Integer.MAX_VALUE) {
             GraphicsContext gc = pickCanvas.getGraphicsContext2D();
             gc.clearRect(0, 0, pickCanvas.getWidth(), pickCanvas.getWidth());
         }
-       }
-
-    /*
-    public void SavetoDicsButton() {
-        Utils.saveToDics("stuff", terrain);
     }
 
-    public void debugCheck() {
-        boolean b = checkBudug.isSelected();
-        comboB.setVisible(b); slider1.setVisible(b); slider2.setVisible(b); slider3.setVisible(b);
-        if(!checkBudug.isSelected()){
-            CanvasGraphics.clearCanvas(debugCanvas);
-            comboB.setValue(null);
-        }
-    }
-
-    public void comboBoxAction(ActionEvent e) {
-        if (comboB.getValue() != null){
-            int mode = comboB.getSelectionModel().getSelectedIndex();
-            CanvasGraphics.drawDebugImage(debugCanvas, terrain, mode);
-            System.out.println(comboB.getValue());
-        }
-    }*/
 
     public void calcButton() {
         //coolCalculation(pX,pY);
