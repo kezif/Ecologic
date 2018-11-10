@@ -2,6 +2,8 @@ package Display;
 
 import Generation.Terrain;
 import Utils.Utils;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.*;
@@ -13,6 +15,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+
+import java.util.Random;
 
 
 public class MainWindow {
@@ -30,6 +34,7 @@ public class MainWindow {
     public Canvas sityCanvas;
     public Canvas debugCanvas;
     public Button calcButton;
+    private int minGrid = 3;
 
     private Terrain terrain;
 
@@ -38,7 +43,7 @@ public class MainWindow {
         System.out.println("init");
         this.terrain = new Terrain((int) terCanvas.getWidth(), (int) terCanvas.getHeight(), (int)terCanvas.getWidth()/20);
         evalButton();
-        CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize());
+        CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize(), minGrid);
         comboB.getItems().addAll("Terrain", "Water", "Pop Dest", "Safety");
         System.out.println("done");
         /*slider1.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -84,13 +89,18 @@ public class MainWindow {
         int y = (int) (e.getY() / gridSize) * gridSize;
         GraphicsContext gc = pickCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, pickCanvas.getWidth(), pickCanvas.getWidth());
-        if (pX == Integer.MAX_VALUE && pY == Integer.MAX_VALUE) {
-            gc.setFill(Color.color(1, 1, 1, 0.2));
-            gc.fillRect(x, y, gridSize, gridSize);
-        } else {
-            gc.setFill(Color.color(0, 0, 0, 0.3));
-            gc.fillRect(pX, pY, gridSize, gridSize);
-        }
+        int min = gridSize * minGrid;
+
+            if (pX == Integer.MAX_VALUE && pY == Integer.MAX_VALUE) {
+                if (x >= min && x < pickCanvas.getHeight()-min && y >= min && y < pickCanvas.getHeight()-min) {
+                    gc.setFill(Color.color(1, 1, 1, 0.2));
+                    gc.fillRect(x, y, gridSize, gridSize);
+                }
+            } else {
+                gc.setFill(Color.color(0, 0, 0, 0.3));
+                gc.fillRect(pX, pY, gridSize, gridSize);
+            }
+
     }
 
     private int pX = Integer.MAX_VALUE;
@@ -106,10 +116,13 @@ public class MainWindow {
             calcButton.setDisable(true);
             return;
         }
-        pX = x;
-        pY = y;
-        calcButton.setDisable(false);
-        MouseMoved(e);
+        int min = gridSize * minGrid;
+        if (x >= min && x < pickCanvas.getHeight()-min && y >= min && y < pickCanvas.getHeight()-min) {
+            pX = x;
+            pY = y;
+            calcButton.setDisable(false);
+            MouseMoved(e);
+        }
     }
 
     @FXML
