@@ -1,6 +1,7 @@
 package Display;
 
 import Generation.Terrain;
+import Utils.Vector2d;
 import Utils.Utils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -34,6 +35,7 @@ public class MainWindow {
     public Canvas sityCanvas;
     public Canvas debugCanvas;
     public Button calcButton;
+    public Canvas polutionCanvas;
     private int minGrid = 3;
 
     private Terrain terrain;
@@ -80,7 +82,7 @@ public class MainWindow {
     private int pX = Integer.MAX_VALUE;
     private int pY = Integer.MAX_VALUE;
 
-    private void highlightSquare(double X, double Y){
+    private void highlightSquare(double X, double Y) {
         int gridSize = terrain.getGridSize();
         int x = (int) (X / gridSize) * gridSize;
         int y = (int) (Y / gridSize) * gridSize;
@@ -113,7 +115,7 @@ public class MainWindow {
         pX = x;
         pY = y;
         calcButton.setDisable(false);
-        highlightSquare(e.getX(),e.getY());
+        highlightSquare(e.getX(), e.getY());
         int min = gridSize * minGrid;
         if (x >= min && x < pickCanvas.getHeight() - min && y >= min && y < pickCanvas.getHeight() - min) {
             pX = x;
@@ -141,6 +143,8 @@ public class MainWindow {
 
 
     public void calcButton() {
+        Vector2d[] surCoord = Terrain.getSurrounders(pX, pY, terrain.getGridSize());
+
         //coolCalculation(pX,pY);
     }
 }

@@ -72,6 +72,10 @@ public class Terrain {
         return (int)Math.round(v / gridSize ) * gridSize;
     }
 
+    public static int getToGridSize(double v, int gridSize){
+        return (int)Math.round(v / gridSize ) * gridSize;
+    }
+
 
     private void generatePopul() {
         double popMap[][] = new double[height][width];
@@ -272,9 +276,9 @@ public class Terrain {
             System.out.println(String.format("Average height - %f\nAverage population - not a sity\nPermission - %f\nWater persentage - %f\n ", heightPers, safePers, waterPers));
     }
 
-    public Vector2d[] getSurrounders(double X, double Y){
-        int x = getToGridSize(X);
-        int y = getToGridSize(Y);
+    public static Vector2d[] getSurrounders(double X, double Y,  int gridSize){
+        int x = getToGridSize(X, gridSize);
+        int y = getToGridSize(Y, gridSize);
         Vector2d[] neighbors = new Vector2d[28];
         int radius = 3;
         int count = 0;
@@ -287,7 +291,6 @@ public class Terrain {
                 }
             }
         }
-
         return neighbors;
     }
 
