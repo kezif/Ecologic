@@ -61,7 +61,8 @@ public class MainWindow {
 
     @FXML
     public void evalButton() {
-            long startTime = System.nanoTime(); //timer
+        CanvasGraphics.clearCanvas(terCanvas);
+        long startTime = System.nanoTime(); //timer
         terrain.reroll();
             long endTime = System.nanoTime(); //timer
             long duration = (endTime - startTime); //timer
@@ -73,6 +74,8 @@ public class MainWindow {
             duration = (endTime - startTime); //timer
             System.out.println(String.format("Draw in %d ms", duration / 1000000)); //timer
             System.out.println("---");
+        pX = pY = Integer.MAX_VALUE;
+        highlightSquare(pX, pY);
     }
 
 
@@ -83,9 +86,16 @@ public class MainWindow {
 
     @FXML
     public void MouseMoved(MouseEvent e) {
+        highlightSquare(e.getX(), e.getY());
+    }
+
+    private int pX = Integer.MAX_VALUE;
+    private int pY = Integer.MAX_VALUE;
+
+    private void highlightSquare(double X, double Y){
         int gridSize = terrain.getGridSize();
-        int x = (int) (e.getX() / gridSize) * gridSize;
-        int y = (int) (e.getY() / gridSize) * gridSize;
+        int x = (int) (X / gridSize) * gridSize;
+        int y = (int) (Y / gridSize) * gridSize;
         GraphicsContext gc = pickCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, pickCanvas.getWidth(), pickCanvas.getWidth());
         if (pX == Integer.MAX_VALUE && pY == Integer.MAX_VALUE) {
@@ -97,9 +107,6 @@ public class MainWindow {
         }
     }
 
-    private int pX = Integer.MAX_VALUE;
-    private int pY = Integer.MAX_VALUE;
-
     @FXML
     public void mouseCliked(MouseEvent e) {
         int gridSize = terrain.getGridSize();
@@ -108,12 +115,13 @@ public class MainWindow {
         if (pX == x && pY == y) {
             pX = pY = Integer.MAX_VALUE;
             calcButton.setDisable(true);
+            highlightSquare(Double.MAX_VALUE, Double.MAX_VALUE);
             return;
         }
         pX = x;
         pY = y;
         calcButton.setDisable(false);
-        MouseMoved(e);
+        highlightSquare(e.getX(),e.getY());
     }
 
     @FXML
