@@ -51,7 +51,7 @@ public class MainWindow {
 
     @FXML
     public void evalButton() {
-            long startTime = System.nanoTime(); //timer
+        long startTime = System.nanoTime(); //timer
         terrain.reroll();
         long endTime = System.nanoTime(); //timer
         long duration = (endTime - startTime); //timer
@@ -60,10 +60,10 @@ public class MainWindow {
         CanvasGraphics.readProp();
         CanvasGraphics.drawHeightNwater(terCanvas, terrain);
         CanvasGraphics.drawSity(sityCanvas, terrain);
-            endTime = System.nanoTime(); //timer
-            duration = (endTime - startTime); //timer
-            System.out.println(String.format("Draw in %d ms", duration / 1000000)); //timer
-            System.out.println("---");
+        endTime = System.nanoTime(); //timer
+        duration = (endTime - startTime); //timer
+        System.out.println(String.format("Draw in %d ms", duration / 1000000)); //timer
+        System.out.println("---");
         pX = pY = Integer.MAX_VALUE;
         highlightSquare(pX, pY);
     }
@@ -143,8 +143,17 @@ public class MainWindow {
 
 
     public void calcButton() {
+        CanvasGraphics.clearCanvas(polutionCanvas);
         Vector2d[] surCoord = Terrain.getSurrounders(pX, pY, terrain.getGridSize());
+        GraphicsContext gc = polutionCanvas.getGraphicsContext2D();
+        int gridSize = terrain.getGridSize();
+        gc.setFill(Color.color(.3, 0.3, 1, 0.2));
+        for (Vector2d c : surCoord) {
+            if (c != null){
+                gc.fillRect(c.x,c.y,gridSize, gridSize);
+            }
 
+        }
         //coolCalculation(pX,pY);
     }
 }

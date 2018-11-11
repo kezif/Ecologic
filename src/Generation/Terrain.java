@@ -283,7 +283,7 @@ public class Terrain {
         int radius = 3;
         int count = 0;
         for (int i = -radius; i <= radius; i++) {
-            for (int j = -radius; j <= radius; j++) {
+            for (int j = -radius; j <= radius+1; j++) {
                 if (i * i + j * j <= radius * radius){
                     if(i == 0 && j == 0)
                         break;
