@@ -17,6 +17,8 @@ public class Terrain {
     private double[][] waterMap;
     private double[][] safetyMap;
     private Properties prop;
+    private double overallPopulationPers;
+    static final private double acceptebleSityPers = 0.1d;
 
 
     public Terrain(int width, int height, int gridSize) {
@@ -35,6 +37,10 @@ public class Terrain {
         generateHeightNwaterMap();
         generatePopul();
         generateSafetyMap();
+        generateOverallPopulationPers();
+        if(overallPopulationPers < acceptebleSityPers){
+            reroll();
+        }
     }
 
     private void generateHeightNwaterMap() {
@@ -88,6 +94,18 @@ public class Terrain {
             }
         }
         this.populationMap = popMap;
+    }
+
+    public void generateOverallPopulationPers() {
+        double value = 0;
+        double hGridC = height / gridSize;
+        double wGridC = width / gridSize;
+        for (int i = 0; i < height; i += gridSize) {
+            for (int j = 0; j < width; j += gridSize) {
+                value += getSquareBinCount(i, j, "POPULATION");
+            }
+        }
+        overallPopulationPers = value / (wGridC * hGridC);
     }
 
     private double[][] gridify(double[][] map, int grid) {
@@ -168,19 +186,68 @@ public class Terrain {
         return gridSize;
     }
 
+    public double getOverallPopulationPers() {
+        return overallPopulationPers;
+    }
 
-    public void getSqareInfo(double x, double y){
+    public double[][] getMap(String name) {
+        double[][] map;
+        switch (name) {
+            case "HEIGHT":
+                map = heightMap;
+                break;
+            case "WATER":
+                map = waterMap;
+                break;
+            case "POPULATION":
+                map = populationMap;
+                break;
+            case "SAFETY":
+                map = safetyMap;
+                break;
+            default:
+                System.out.println("Incorrect parameter");
+                return new double[0][];
+        }
+        return map;
+    }
+
+    public double getSquareBinCount(double x, double y, String type) {
+        double[][] map = getMap(type);
+        double value = 0;
+        for (int i = (int) x; i < x + gridSize; i++) {
+            for (int j = (int) y; j < y + gridSize; j++) {
+                value += map[i][j] > 0 ? 1 : 0;
+            }
+        }
+        value /= gridSize * gridSize;
+        return value;
+    }
+
+    public double getSquareAverenge(double x, double y, String type) {
+        double[][] map = getMap(type);
+        double value = 0;
+        for (int i = (int) x; i < x + gridSize; i++) {
+            for (int j = (int) y; j < y + gridSize; j++) {
+                value += map[i][j];
+            }
+        }
+        value /= gridSize * gridSize;
+        return value;
+    }
+
+    public void getSqareInfo(double x, double y) {
         x = stepValue(x, gridSize);
         y = stepValue(y, gridSize);
         double heightPers = 0;
         double waterPers = 0;
         double popPerst = 0;
         double safePers = 0;
-        for (int i = (int)x; i < x+gridSize; i++) {
-            for (int j = (int)y; j < y+gridSize; j++) {
+        for (int i = (int) x; i < x + gridSize; i++) {
+            for (int j = (int) y; j < y + gridSize; j++) {
                 heightPers += heightMap[i][j];
                 waterPers += waterMap[i][j] > 0 ? 1 : 0;
-                popPerst+= populationMap[i][j];
+                popPerst += populationMap[i][j];
                 safePers += safetyMap[i][j] > 0 ? 1 - safetyMap[i][j] : 0;
             }
         }
@@ -188,11 +255,11 @@ public class Terrain {
         waterPers /= gridSize * gridSize;
         popPerst /= gridSize * gridSize;
         safePers /= gridSize * gridSize;
-        safePers += waterPers*.4;
-        if(popPerst > 0)
-            System.out.println(String.format("Average height - %f\nAverage population - %f\nPermission - %f\nWater persentage - %f\n ",heightPers, popPerst, safePers, waterPers ));
+        safePers += waterPers * .4;
+        if (popPerst > 0)
+            System.out.println(String.format("Average height - %f\nAverage population - %f\nPermission - %f\nWater persentage - %f\n ", heightPers, popPerst, safePers, waterPers));
         else
-            System.out.println(String.format("Average height - %f\nAverage population - not a sity\nPermission - %f\nWater persentage - %f\n ",heightPers, safePers, waterPers ));
+            System.out.println(String.format("Average height - %f\nAverage population - not a sity\nPermission - %f\nWater persentage - %f\n ", heightPers, safePers, waterPers));
     }
 
 
