@@ -67,7 +67,7 @@ public class CanvasGraphics {
             for (int j = 0; j < canvas.getWidth(); j += gridsize) {
                 float cI = i + center;
                 float cJ = j + center;
-                int maxBuilding = t.getDensity((int) cI, (int) cJ);
+                int maxBuilding = t.getDensity(i, j);
                 int count = 0;
                 for (int k = -1; k <= 1; k++) {
                     for (int l = -1; l <= 1; l++) {

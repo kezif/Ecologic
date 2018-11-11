@@ -1,6 +1,7 @@
 package Generation;
 
 import Utils.ReadResourse;
+import Utils.Vector2d;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class Terrain {
     private double[][] safetyMap;
     private Properties prop;
     private double overallPopulationPers;
-    static final private double acceptebleSityPers = 0.1d;
+    static final private double acceptebleSityPers = 0.2d;
 
 
     public Terrain(int width, int height, int gridSize) {
@@ -65,6 +66,10 @@ public class Terrain {
 
     public double stepValue(double v, int step) {
         return Math.floor(v * step) / step;
+    }
+
+    public int getToGridSize(double v){
+        return (int)Math.round(v / gridSize ) * gridSize;
     }
 
 
@@ -155,7 +160,8 @@ public class Terrain {
 
 
     public int getDensity(int i, int j) {
-        return 1 + (int) Math.round((int) (populationMap[i][(j)] * 10));
+        return (int)Math.round((getSquareAverenge(i,j, "POPULATION")*10));
+        //return 1 + (int) Math.round((int) (populationMap[i][(j)] * 10));
     }
 
     public double[][] getPopulationMap() {
@@ -212,7 +218,9 @@ public class Terrain {
         return map;
     }
 
-    public double getSquareBinCount(double x, double y, String type) {
+    public double getSquareBinCount(double X, double Y, String type) {
+        int x = getToGridSize(X);
+        int y = getToGridSize(Y);
         double[][] map = getMap(type);
         double value = 0;
         for (int i = (int) x; i < x + gridSize; i++) {
@@ -224,7 +232,9 @@ public class Terrain {
         return value;
     }
 
-    public double getSquareAverenge(double x, double y, String type) {
+    public double getSquareAverenge(double X, double Y, String type) {
+        int x = getToGridSize(X);
+        int y = getToGridSize(Y);
         double[][] map = getMap(type);
         double value = 0;
         for (int i = (int) x; i < x + gridSize; i++) {
@@ -237,8 +247,8 @@ public class Terrain {
     }
 
     public void getSqareInfo(double x, double y) {
-        x = stepValue(x, gridSize);
-        y = stepValue(y, gridSize);
+        x = getToGridSize(x);
+        y = getToGridSize(y);
         double heightPers = 0;
         double waterPers = 0;
         double popPerst = 0;
@@ -262,5 +272,23 @@ public class Terrain {
             System.out.println(String.format("Average height - %f\nAverage population - not a sity\nPermission - %f\nWater persentage - %f\n ", heightPers, safePers, waterPers));
     }
 
+    public Vector2d[] getSurrounders(double X, double Y){
+        int x = getToGridSize(X);
+        int y = getToGridSize(Y);
+        Vector2d[] neighbors = new Vector2d[28];
+        int radius = 3;
+        int count = 0;
+        for (int i = -radius; i <= radius; i++) {
+            for (int j = -radius; j <= radius; j++) {
+                if (i * i + j * j <= radius * radius){
+                    if(i == 0 && j == 0)
+                        break;
+                    neighbors[count++] = new Vector2d(i*gridSize + x, j*gridSize + y);
+                }
+            }
+        }
+
+        return neighbors;
+    }
 
 }
