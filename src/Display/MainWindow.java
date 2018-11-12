@@ -78,20 +78,7 @@ public class MainWindow {
     @FXML
     public void MouseMoved(MouseEvent e) {
         highlightSquare(e.getX(), e.getY());
-        int grid = terrain.getGridSize();
-        int x = Terrain.getToGridSize(e.getX(), grid);
-        int y = Terrain.getToGridSize(e.getY(), grid);
-        double saf = terrain.getSquareAverenge(x, y, "SAFETY");
-        Vector2d[] nei = terrain.getNeighbors(x, y, 1);
-        GraphicsContext gc = pickCanvas.getGraphicsContext2D();
-        for(Vector2d n : nei){
-            if (n!= null){
-                double curSaf = terrain.getSquareAverenge(n.x, n.y, "SAFETY");
-                if(saf > curSaf && curSaf != 0 ){
-                    gc.fillRect(n.x, n.y, grid,grid);
-                }
-            }
-        }
+        CanvasGraphics.highlightZone(debugCanvas,terrain, new Vector2d(e.getX(), e.getY()));
     }
 
     private int pX = Integer.MAX_VALUE;

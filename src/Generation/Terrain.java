@@ -69,11 +69,11 @@ public class Terrain {
     }
 
     public int getToGridSize(double v){
-        return (int)Math.floor(v / gridSize ) * gridSize;
+        return (int)(v / gridSize ) * gridSize;
     }
 
     public static int getToGridSize(double v, int gridSize){
-        return (int)Math.round(v / gridSize ) * gridSize;
+        return (int)(v / gridSize ) * gridSize;
     }
 
 
@@ -109,13 +109,14 @@ public class Terrain {
         x = getToGridSize(x);
         y = getToGridSize(y);
         double value = getSquareAverenge(x, y, "SAFETY");
-        if (value < Double.parseDouble(prop.getProperty("houseV")))
+        if(value == 0)
+            return "";
+        else if (value < Double.parseDouble(prop.getProperty("houseV")))
             return "HOUSE";
         else if (value < Double.parseDouble(prop.getProperty("shopV")))
             return "SHOP";
         else
             return "FACTORY";
-
     }
 
     public void generateOverallPopulationPers() {

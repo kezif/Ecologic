@@ -8,4 +8,9 @@ public class Vector2d {
         this.x = x;
         this.y = y;
     }
+
+    public Vector2d(double x, double y) {
+        this.x = (int)Math.round(x);
+        this.y = (int)Math.round(y);
+    }
 }

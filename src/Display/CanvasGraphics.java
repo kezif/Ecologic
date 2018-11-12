@@ -19,6 +19,7 @@ public class CanvasGraphics {
     //TODO неплонтняя заселеность города чтобы можно было ставить внутрь города
     //TODO Подсветка области
     //TODO нормальное чтение конфига
+    //TODO enum вместо стрингов
 
     public static void readProp() {
         prop = ReadResourse.getProperty("res/display.properties");
@@ -140,12 +141,20 @@ public class CanvasGraphics {
     }
 
     static public void highlightZone(Canvas c, Terrain t, Vector2d v) {
+        clearCanvas(c);
         GraphicsContext gc = c.getGraphicsContext2D();
-
+        //double[][] safe = t.getSafetyMap();
+        String zone = t.getSquareZone(v.x, v.y);
+        if(zone.equals(""))
+            return;
         int grid = t.getGridSize();
+        gc.setFill(Color.web(prop.getProperty("colZoneHighlight")));
+        System.out.println(gc.getFill().toString());
         for (int i = 0; i < t.getHeight(); i += grid) {
             for (int j = 0; j < t.getWidth(); j += grid) {
-
+                if(zone.equals(t.getSquareZone(i,j))){
+                    gc.fillRect(i,j,grid,grid);
+                }
             }
         }
     }
