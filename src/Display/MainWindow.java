@@ -23,8 +23,8 @@ public class MainWindow {
     public Canvas calcCanvas;
     public Button calcButton;
     public Canvas pollutionCanvas;
-    private int minGrid = 3;
 
+    private int minGrid = 3;
     private Terrain terrain;
 
     @FXML
