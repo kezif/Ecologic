@@ -276,18 +276,17 @@ public class Terrain {
             System.out.println(String.format("Average height - %f\nAverage population - not a sity\nPermission - %f\nWater persentage - %f\n ", heightPers, safePers, waterPers));
     }
 
-    public static Vector2d[] getSurrounders(double X, double Y,  int gridSize){
+    public static Vector2d[] getNeighbors(double X, double Y,  int gridSize, int radius){
         int x = getToGridSize(X, gridSize);
         int y = getToGridSize(Y, gridSize);
-        Vector2d[] neighbors = new Vector2d[28];
-        int radius = 3;
+        Vector2d[] neighbors = new Vector2d[radius*100]; //TODO crivo?
         int count = 0;
         for (int i = -radius; i <= radius; i++) {
             for (int j = -radius; j <= radius+1; j++) {
-                if (i * i + j * j <= radius * radius){
-                    if(i == 0 && j == 0)
-                        break;
+                if (i * i + j * j <= radius * radius+1){
                     neighbors[count++] = new Vector2d(i*gridSize + x, j*gridSize + y);
+                    if(i == 0 && j == 0)
+                        count--;
                 }
             }
         }

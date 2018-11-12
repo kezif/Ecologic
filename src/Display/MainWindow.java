@@ -66,6 +66,7 @@ public class MainWindow {
         System.out.println("---");
         pX = pY = Integer.MAX_VALUE;
         highlightSquare(pX, pY);
+        CanvasGraphics.clearCanvas(polutionCanvas);
     }
 
 
@@ -103,7 +104,10 @@ public class MainWindow {
 
     @FXML
     public void mouseCliked(MouseEvent e) {
+        CanvasGraphics.clearCanvas(polutionCanvas);
+        picked = false;
         int gridSize = terrain.getGridSize();
+        int min = gridSize * minGrid;
         int x = (int) (e.getX() / gridSize) * gridSize;
         int y = (int) (e.getY() / gridSize) * gridSize;
         if (pX == x && pY == y) {
@@ -112,11 +116,7 @@ public class MainWindow {
             highlightSquare(Double.MAX_VALUE, Double.MAX_VALUE);
             return;
         }
-        pX = x;
-        pY = y;
-        calcButton.setDisable(false);
         highlightSquare(e.getX(), e.getY());
-        int min = gridSize * minGrid;
         if (x >= min && x < pickCanvas.getHeight() - min && y >= min && y < pickCanvas.getHeight() - min) {
             pX = x;
             pY = y;
@@ -141,19 +141,24 @@ public class MainWindow {
         }
     }
 
-
+    private Boolean picked = false;
     public void calcButton() {
-        CanvasGraphics.clearCanvas(polutionCanvas);
-        Vector2d[] surCoord = Terrain.getSurrounders(pX, pY, terrain.getGridSize());
-        GraphicsContext gc = polutionCanvas.getGraphicsContext2D();
-        int gridSize = terrain.getGridSize();
-        gc.setFill(Color.color(.3, 0.3, 1, 0.2));
-        for (Vector2d c : surCoord) {
-            if (c != null){
-                gc.fillRect(c.x,c.y,gridSize, gridSize);
+        picked = !picked;
+        if(picked){
+            CanvasGraphics.clearCanvas(polutionCanvas);
+            Vector2d[] surCoord = Terrain.getNeighbors(pX, pY, terrain.getGridSize(),minGrid);
+            GraphicsContext gc = polutionCanvas.getGraphicsContext2D();
+            int gridSize = terrain.getGridSize();
+            gc.setFill(Color.color(.3, 0.3, 1, 0.2));
+            for (Vector2d c : surCoord) {
+                if (c != null){
+                    gc.fillRect(c.x,c.y,gridSize, gridSize);
+                }
             }
+            //coolCalculation(pX,pY);
+        } else
+            CanvasGraphics.clearCanvas(polutionCanvas);
 
-        }
-        //coolCalculation(pX,pY);
+
     }
 }
