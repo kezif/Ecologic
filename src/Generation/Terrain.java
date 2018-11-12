@@ -294,7 +294,7 @@ public class Terrain {
     public ArrayList<Vector2d> getNeighbors(double X, double Y, int radius){
         int x = getToGridSize(X, gridSize);
         int y = getToGridSize(Y, gridSize);
-        ArrayList<Vector2d> neighbors = new ArrayList<>();//new Vector2d[radius*100]; //TODO crivo?
+        ArrayList<Vector2d> neighbors = new ArrayList<>();//new Vector2d[radius*100];
         int count = 0;
         for (int i = -radius; i <= radius; i++) {
             for (int j = -radius; j <= radius+1; j++) {
