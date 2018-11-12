@@ -104,13 +104,13 @@ public class MainWindow {
 
     @FXML
     public void mouseCliked(MouseEvent e) {
-        CanvasGraphics.clearCanvas(polutionCanvas);
         picked = false;
         int gridSize = terrain.getGridSize();
         int min = gridSize * minGrid;
         int x = (int) (e.getX() / gridSize) * gridSize;
         int y = (int) (e.getY() / gridSize) * gridSize;
         if (pX == x && pY == y) {
+            CanvasGraphics.clearCanvas(polutionCanvas);
             pX = pY = Integer.MAX_VALUE;
             calcButton.setDisable(true);
             highlightSquare(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -118,6 +118,7 @@ public class MainWindow {
         }
         highlightSquare(e.getX(), e.getY());
         if (x >= min && x < pickCanvas.getHeight() - min && y >= min && y < pickCanvas.getHeight() - min) {
+            CanvasGraphics.clearCanvas(polutionCanvas);
             pX = x;
             pY = y;
             calcButton.setDisable(false);
