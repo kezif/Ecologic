@@ -1,6 +1,7 @@
 package Display;
 
 import Generation.Terrain;
+import Generation.Zone;
 import Utils.ReadResourse;
 import Utils.Vector2d;
 import javafx.animation.FadeTransition;
@@ -19,7 +20,6 @@ public class CanvasGraphics {
     //TODO неплонтняя заселеность города чтобы можно было ставить внутрь города
     //TODO Подсветка области
     //TODO нормальное чтение конфига
-    //TODO enum вместо стрингов
 
     public static void readProp() {
         prop = ReadResourse.getProperty("res/display.properties");
@@ -90,14 +90,16 @@ public class CanvasGraphics {
 
     static private void drawHouseType(GraphicsContext gc, double x, double y, double size, Terrain t) {
         switch (t.getSquareZone((int) x, (int) y)) {
-            case "HOUSE":
+            case HOUSE:
                 gc.strokeRect(x, y, size, size);
                 break;
-            case "SHOP":
+            case SHOP:
                 gc.strokeOval(x, y, size, size);
                 break;
-            default:
+            case FACTORY:
                 gc.strokePolygon(new double[]{x, x + size, x}, new double[]{y, y, y + size}, 3);
+                break;
+            default:
                 break;
         }
     }
@@ -105,14 +107,16 @@ public class CanvasGraphics {
     /*static private double houseV = 0.6;
     static private double shopV = 0.7;*/
 
-    private static Color getColorFromSafety(String type) {
+    private static Color getColorFromSafety(Zone type) {
         switch (type) {
-            case "HOUSE":
+            case HOUSE:
                 return Color.web(prop.getProperty("colHouse"));
-            case "SHOP":
+            case SHOP:
                 return Color.web(prop.getProperty("colShop"));
-            default:
+            case FACTORY:
                 return Color.web(prop.getProperty("colFactory"));
+            default:
+                return Color.RED;
         }
     }
 
@@ -144,18 +148,20 @@ public class CanvasGraphics {
         clearCanvas(c);
         GraphicsContext gc = c.getGraphicsContext2D();
         //double[][] safe = t.getSafetyMap();
-        String zone = t.getSquareZone(v.x, v.y);
-        if(zone.equals(""))
+        Zone zone = t.getSquareZone(v.x, v.y);
+        if(zone == Zone.DIRT)
             return;
         int grid = t.getGridSize();
         gc.setFill(Color.web(prop.getProperty("colZoneHighlight")));
         System.out.println(gc.getFill().toString());
         for (int i = 0; i < t.getHeight(); i += grid) {
             for (int j = 0; j < t.getWidth(); j += grid) {
-                if(zone.equals(t.getSquareZone(i,j))){
+                if(zone == t.getSquareZone(i,j)){
                     gc.fillRect(i,j,grid,grid);
                 }
             }
         }
     }
 }
+
+

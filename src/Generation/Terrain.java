@@ -5,7 +5,6 @@ import Utils.Vector2d;
 
 import java.util.*;
 
-
 public class Terrain {
     //private Square[][] squares;
     private int gridSize;
@@ -105,18 +104,18 @@ public class Terrain {
         this.populationMap = popMap;
     }
 
-    public String getSquareZone(int x, int y){
+    public Zone getSquareZone(int x, int y){
         x = getToGridSize(x);
         y = getToGridSize(y);
         double value = getSquareAverenge(x, y, "SAFETY");
         if(value == 0)
-            return "";
+            return Zone.DIRT;
         else if (value < Double.parseDouble(prop.getProperty("houseV")))
-            return "HOUSE";
+            return Zone.HOUSE;
         else if (value < Double.parseDouble(prop.getProperty("shopV")))
-            return "SHOP";
+            return Zone.SHOP;
         else
-            return "FACTORY";
+            return Zone.FACTORY;
     }
 
     public void generateOverallPopulationPers() {
