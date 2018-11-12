@@ -105,6 +105,19 @@ public class Terrain {
         this.populationMap = popMap;
     }
 
+    public String getSquareZone(int x, int y){
+        x = getToGridSize(x);
+        y = getToGridSize(y);
+        double value = getSquareAverenge(x, y, "SAFETY");
+        if (value < Double.parseDouble(prop.getProperty("houseV")))
+            return "HOUSE";
+        else if (value < Double.parseDouble(prop.getProperty("shopV")))
+            return "SHOP";
+        else
+            return "FACTORY";
+
+    }
+
     public void generateOverallPopulationPers() {
         double value = 0;
         double hGridC = height / gridSize;
@@ -287,9 +300,8 @@ public class Terrain {
                     int desiredX = i*gridSize + x;
                     int desiredY = j*gridSize + y;
                     neighbors[count++] = new Vector2d(desiredX, desiredY);
-                    if((i == 0 && j == 0) )
+                    if((i == 0 && j == 0) || desiredX < 0 || desiredX > height-gridSize || desiredY < 0 || desiredY > width-gridSize)
                         neighbors[count--] = null;//
-
                 }
             }
         }

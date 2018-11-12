@@ -2,6 +2,7 @@ package Display;
 
 import Generation.Terrain;
 import Utils.ReadResourse;
+import Utils.Vector2d;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
@@ -17,6 +18,7 @@ public class CanvasGraphics {
     static Properties prop;
     //TODO неплонтняя заселеность города чтобы можно было ставить внутрь города
     //TODO Подсветка области
+    //TODO нормальное чтение конфига
 
     public static void readProp() {
         prop = ReadResourse.getProperty("res/display.properties");
@@ -52,7 +54,7 @@ public class CanvasGraphics {
         for (int i = 0; i < canvas.getHeight(); i++) {
             for (int j = 0; j < canvas.getWidth(); j++) {
                 if (pMap[i][j] > 0) {
-                    Color col = transColor(getColorFromSafety(sMap[i][j]), pMap[i][j]);
+                    Color col = transColor(getColorFromSafety(t.getSquareZone(i,j)), pMap[i][j]);
                     pw.setColor(i, j, col);
                 }
             }
@@ -74,7 +76,7 @@ public class CanvasGraphics {
                 for (int k = -1; k <= 1; k++) {
                     for (int l = -1; l <= 1; l++) {
                         if (pMap[(int) (cI + k * pasi)][(int) (cJ + l * pasi)] > 0 && maxBuilding > count) {
-                            //drawHouseType(gc, cI - size / 2 + k * pasi, cJ - size / 2 + l * pasi, size, sMap[(int) (cI + k * pasi)][(int) (cJ + l * pasi)]);
+                            drawHouseType(gc, cI - size / 2 + k * pasi, cJ - size / 2 + l * pasi, size, t);
                             count++;
                         }
                     }
@@ -85,25 +87,32 @@ public class CanvasGraphics {
     }
 
 
-    static private void drawHouseType(GraphicsContext gc, double x, double y, double size, double value) {
-        if (value < Double.parseDouble(prop.getProperty("houseV")))
-            gc.strokeRect(x, y, size, size);
-        else if (value < Double.parseDouble(prop.getProperty("shopV")))
-            gc.strokeOval(x, y, size, size);
-        else
-            gc.strokePolygon(new double[]{x, x + size, x}, new double[]{y, y, y + size}, 3);
+    static private void drawHouseType(GraphicsContext gc, double x, double y, double size, Terrain t) {
+        switch (t.getSquareZone((int) x, (int) y)) {
+            case "HOUSE":
+                gc.strokeRect(x, y, size, size);
+                break;
+            case "SHOP":
+                gc.strokeOval(x, y, size, size);
+                break;
+            default:
+                gc.strokePolygon(new double[]{x, x + size, x}, new double[]{y, y, y + size}, 3);
+                break;
+        }
     }
 
     /*static private double houseV = 0.6;
     static private double shopV = 0.7;*/
 
-    private static Color getColorFromSafety(double value) {
-        if (value < Double.parseDouble(prop.getProperty("houseV")))//#1B6623
-            return Color.web(prop.getProperty("colHouse"));
-        else if (value < Double.parseDouble(prop.getProperty("shopV")))
-            return Color.web(prop.getProperty("colShop"));
-        else
-            return Color.web(prop.getProperty("colFactory"));
+    private static Color getColorFromSafety(String type) {
+        switch (type) {
+            case "HOUSE":
+                return Color.web(prop.getProperty("colHouse"));
+            case "SHOP":
+                return Color.web(prop.getProperty("colShop"));
+            default:
+                return Color.web(prop.getProperty("colFactory"));
+        }
     }
 
 
@@ -128,5 +137,16 @@ public class CanvasGraphics {
         int min = gridSize * mins;
         GraphicsContext gcc = c.getGraphicsContext2D();
         gcc.strokeRect(min, min, c.getHeight() - min * 2, c.getWidth() - min * 2);
+    }
+
+    static public void highlightZone(Canvas c, Terrain t, Vector2d v) {
+        GraphicsContext gc = c.getGraphicsContext2D();
+
+        int grid = t.getGridSize();
+        for (int i = 0; i < t.getHeight(); i += grid) {
+            for (int j = 0; j < t.getWidth(); j += grid) {
+
+            }
+        }
     }
 }

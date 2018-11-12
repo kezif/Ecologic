@@ -78,10 +78,19 @@ public class MainWindow {
     @FXML
     public void MouseMoved(MouseEvent e) {
         highlightSquare(e.getX(), e.getY());
-        double curSaf = terrain.getSquareAverenge(e.getX(), e.getY(), "SAFETY");
-        Vector2d[] nei = terrain.getNeighbors(e.getX(), e.getY(), 1);
+        int grid = terrain.getGridSize();
+        int x = Terrain.getToGridSize(e.getX(), grid);
+        int y = Terrain.getToGridSize(e.getY(), grid);
+        double saf = terrain.getSquareAverenge(x, y, "SAFETY");
+        Vector2d[] nei = terrain.getNeighbors(x, y, 1);
+        GraphicsContext gc = pickCanvas.getGraphicsContext2D();
         for(Vector2d n : nei){
-            //if(curSaf == )
+            if (n!= null){
+                double curSaf = terrain.getSquareAverenge(n.x, n.y, "SAFETY");
+                if(saf > curSaf && curSaf != 0 ){
+                    gc.fillRect(n.x, n.y, grid,grid);
+                }
+            }
         }
     }
 
@@ -90,8 +99,8 @@ public class MainWindow {
 
     private void highlightSquare(double X, double Y) {
         int gridSize = terrain.getGridSize();
-        int x = (int) (X / gridSize) * gridSize;
-        int y = (int) (Y / gridSize) * gridSize;
+        int x = Terrain.getToGridSize(X, gridSize);
+        int y = Terrain.getToGridSize(Y, gridSize);
         GraphicsContext gc = pickCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, pickCanvas.getWidth(), pickCanvas.getWidth());
         int min = gridSize * minGrid;
