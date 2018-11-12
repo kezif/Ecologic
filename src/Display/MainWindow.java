@@ -5,6 +5,7 @@ import Utils.Vector2d;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -23,6 +24,7 @@ public class MainWindow {
     public Canvas calcCanvas;
     public Button calcButton;
     public Canvas pollutionCanvas;
+    public Label zoneNameLabel;
 
     private int minGrid = 3;
     private Terrain terrain;
@@ -61,6 +63,7 @@ public class MainWindow {
         picked.setBoth(Integer.MAX_VALUE);
         pick = false;
         calcButton.setDisable(false);
+        zoneNameLabel.setVisible(false);
         CanvasGraphics.clearCanvas(calcCanvas);
         CanvasGraphics.clearCanvas(pickCanvas);
         CanvasGraphics.clearCanvas(pollutionCanvas);
@@ -75,7 +78,7 @@ public class MainWindow {
     @FXML
     public void MouseMoved(MouseEvent e) {
         highlightSquare(e.getX(), e.getY());
-        CanvasGraphics.highlightZone(calcCanvas,terrain, new Vector2d(e.getX(), e.getY()));
+        CanvasGraphics.highlightZone(calcCanvas,terrain, new Vector2d(e.getX(), e.getY()),zoneNameLabel);
     }
 
     private Vector2d picked = new Vector2d();

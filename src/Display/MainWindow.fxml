@@ -10,7 +10,9 @@
 
 <?import java.lang.Double?>
 <?import javafx.scene.layout.StackPane?>
-<HBox  prefHeight="$HEIGHT" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<HBox prefHeight="$HEIGHT" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="Display.MainWindow" onKeyPressed="#KeyPressed">
     <fx:define>
         <Double fx:id="HEIGHT" fx:value="600"/>
@@ -18,7 +20,7 @@
     <padding>
         <Insets/>
     </padding>
-    <StackPane>
+    <StackPane alignment="TOP_CENTER">
         <Canvas fx:id="terCanvas" height="$HEIGHT" width="$HEIGHT">
             <HBox.margin>
                 <Insets/>
@@ -28,11 +30,20 @@
         <Canvas fx:id="gridCanvas"  height="$HEIGHT" width="$HEIGHT"/>
         <Canvas fx:id="calcCanvas" height="$HEIGHT" width="$HEIGHT"/>
         <Canvas fx:id="pollutionCanvas" height="$HEIGHT" width="$HEIGHT"/>
+        <Label fx:id="zoneNameLabel" visible="false"   textFill="coral" >
+            <padding>
+                <Insets top="30"></Insets>
+            </padding>
+            <font>
+                <Font name="Arial Bold" size="20.0"/>
+            </font>
+        </Label>
         <Canvas fx:id="pickCanvas" height="$HEIGHT" width="$HEIGHT" onMouseMoved="#MouseMoved" onMouseClicked="#mouseClicked" onMouseExited="#mouseExited">
             <cursor>
                 <Cursor fx:constant="CROSSHAIR"/>
             </cursor>
         </Canvas>
+
     </StackPane>
     <VBox alignment="CENTER" minHeight="$HEIGHT" minWidth="200.0" spacing="20.0" HBox.hgrow="NEVER">
             <Button mnemonicParsing="false" onAction="#RerollButtonPressed" text="Regenerate"/>

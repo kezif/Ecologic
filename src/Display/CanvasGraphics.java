@@ -6,6 +6,7 @@ import Utils.ReadResourse;
 import Utils.Vector2d;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
@@ -145,13 +146,16 @@ public class CanvasGraphics {
         gcc.strokeRect(min, min, c.getHeight() - min * 2, c.getWidth() - min * 2);
     }
 
-    static public void highlightZone(Canvas c, Terrain t, Vector2d v) {
+    static public void highlightZone(Canvas c, Terrain t, Vector2d v, Label label) {
         clearCanvas(c);
+        label.setVisible(false);
         GraphicsContext gc = c.getGraphicsContext2D();
         //double[][] safe = t.getSafetyMap();
         Zone zone = t.getSquareZone(v.x, v.y);
         if(zone == Zone.DIRT)
             return;
+        label.setVisible(true);
+        label.setText(zone+"");
         int grid = t.getGridSize();
         gc.setFill(Color.web(prop.getProperty("colZoneHighlight")));
         for (int i = 0; i < t.getHeight(); i += grid) {
