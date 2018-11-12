@@ -63,11 +63,11 @@ public class Terrain {
         this.waterMap = waterMap;
     }
 
-    public double stepValue(double v, int step) {
+    private double stepValue(double v, int step) {
         return Math.floor(v * step) / step;
     }
 
-    public int getToGridSize(double v){
+    private int getToGridSize(double v){
         return (int)(v / gridSize ) * gridSize;
     }
 
@@ -90,7 +90,8 @@ public class Terrain {
             }
         }
 
-        popMap = gridify(popMap, gridSize);
+        //popMap =
+                gridify(popMap, gridSize);
 
         if (waterMap != null) {
             for (int i = 0; i < height; i++) {
@@ -118,10 +119,10 @@ public class Terrain {
             return Zone.FACTORY;
     }
 
-    public void generateOverallPopulationPers() {
+    private void generateOverallPopulationPers() {
         double value = 0;
-        double hGridC = height / gridSize;
-        double wGridC = width / gridSize;
+        double hGridC = height / (double)gridSize;
+        double wGridC = width / (double)gridSize;
         for (int i = 0; i < height; i += gridSize) {
             for (int j = 0; j < width; j += gridSize) {
                 value += getSquareBinCount(i, j, "POPULATION");
@@ -162,7 +163,8 @@ public class Terrain {
                 saveMap[i][j] = (val + 1) / 2;
             }
         }
-        saveMap = gridify(saveMap, gridSize);
+        //saveMap =
+        gridify(saveMap, gridSize);
         if (populationMap != null) {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -289,19 +291,21 @@ public class Terrain {
             System.out.println(String.format("Average height - %f\nAverage population - not a sity\nPermission - %f\nWater persentage - %f\n ", heightPers, safePers, waterPers));
     }
 
-    public Vector2d[] getNeighbors(double X, double Y, int radius){
+    public ArrayList<Vector2d> getNeighbors(double X, double Y, int radius){
         int x = getToGridSize(X, gridSize);
         int y = getToGridSize(Y, gridSize);
-        Vector2d[] neighbors = new Vector2d[radius*100]; //TODO crivo?
+        ArrayList<Vector2d> neighbors = new ArrayList<>();//new Vector2d[radius*100]; //TODO crivo?
         int count = 0;
         for (int i = -radius; i <= radius; i++) {
             for (int j = -radius; j <= radius+1; j++) {
                 if (i * i + j * j <= radius * radius+1){
                     int desiredX = i*gridSize + x;
                     int desiredY = j*gridSize + y;
-                    neighbors[count++] = new Vector2d(desiredX, desiredY);
-                    if((i == 0 && j == 0) || desiredX < 0 || desiredX > height-gridSize || desiredY < 0 || desiredY > width-gridSize)
-                        neighbors[count--] = null;//
+                    //neighbors[count++] = new Vector2d(desiredX, desiredY);
+                    neighbors.add(new Vector2d(desiredX, desiredY));
+                    neighbors.removeIf(f -> f.x < 0 || f.x > height-gridSize || f.y < 0 || f.y > width-gridSize || (f.x == x && f.y == y));
+                    //if((i == 0 && j == 0) || desiredX < 0 || desiredX > height-gridSize || desiredY < 0 || desiredY > width-gridSize)
+                        //neighbors[count--] = null;
                 }
             }
         }

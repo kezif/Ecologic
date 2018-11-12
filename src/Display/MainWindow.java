@@ -2,22 +2,16 @@ package Display;
 
 import Generation.Terrain;
 import Utils.Vector2d;
-import Utils.Utils;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 
 public class MainWindow {
@@ -148,7 +142,7 @@ public class MainWindow {
         picked = !picked;
         if(picked){
             CanvasGraphics.clearCanvas(polutionCanvas);
-            Vector2d[] surCoord = terrain.getNeighbors(pX, pY,minGrid);
+            ArrayList<Vector2d> surCoord = terrain.getNeighbors(pX, pY,minGrid);
             GraphicsContext gc = polutionCanvas.getGraphicsContext2D();
             int gridSize = terrain.getGridSize();
             gc.setFill(Color.color(.3, 0.3, 1, 0.2));

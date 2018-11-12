@@ -1,15 +1,7 @@
 package Utils;
 
-import Generation.Terrain;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 public class Utils {
-    public static void saveToDics(String path, Terrain t){
+    /*public static void saveToDics(String path, Terrain t){
         BufferedImage img = new BufferedImage(t.getHeight(), t.getWidth(), BufferedImage.TYPE_INT_RGB);
         double[][] p1 = t.getHeightMap();
         double[][] p2 = t.getPopulationMap();
@@ -28,5 +20,5 @@ public class Utils {
         } catch (IOException r){
 
         }
-    }
+    }*/
 }

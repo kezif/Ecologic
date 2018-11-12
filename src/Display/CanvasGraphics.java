@@ -4,8 +4,6 @@ import Generation.Terrain;
 import Generation.Zone;
 import Utils.ReadResourse;
 import Utils.Vector2d;
-import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
@@ -16,9 +14,8 @@ import java.util.Properties;
 public class CanvasGraphics {
 
 
-    static Properties prop;
+    static private Properties prop;
     //TODO неплонтняя заселеность города чтобы можно было ставить внутрь города
-    //TODO Подсветка области
     //TODO нормальное чтение конфига
 
     public static void readProp() {
@@ -49,7 +46,6 @@ public class CanvasGraphics {
 
     public static void drawSity(Canvas canvas, Terrain t) {
         double[][] pMap = t.getPopulationMap();
-        double[][] sMap = t.getSafetyMap();
         clearCanvas(canvas);
         PixelWriter pw = canvas.getGraphicsContext2D().getPixelWriter();
         for (int i = 0; i < canvas.getHeight(); i++) {
@@ -60,16 +56,21 @@ public class CanvasGraphics {
                 }
             }
         }
+        drawHouse(canvas,t);
+    }
+
+    static private void drawHouse(Canvas c, Terrain t){
         int gridsize = t.getGridSize();
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        double[][] pMap = t.getPopulationMap();
+        GraphicsContext gc = c.getGraphicsContext2D();
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(.5);
-        float center = gridsize / 2;
-        float padding = gridsize / 6;
-        float size = gridsize / 8;
+        float center = gridsize / 2f;
+        float padding = gridsize / 6f;
+        float size = gridsize / 8f;
         float pasi = padding + size;
-        for (int i = 0; i < canvas.getHeight(); i += gridsize) {
-            for (int j = 0; j < canvas.getWidth(); j += gridsize) {
+        for (int i = 0; i < c.getHeight(); i += gridsize) {
+            for (int j = 0; j < c.getWidth(); j += gridsize) {
                 float cI = i + center;
                 float cJ = j + center;
                 int maxBuilding = t.getDensity(i, j);
@@ -153,7 +154,6 @@ public class CanvasGraphics {
             return;
         int grid = t.getGridSize();
         gc.setFill(Color.web(prop.getProperty("colZoneHighlight")));
-        System.out.println(gc.getFill().toString());
         for (int i = 0; i < t.getHeight(); i += grid) {
             for (int j = 0; j < t.getWidth(); j += grid) {
                 if(zone == t.getSquareZone(i,j)){

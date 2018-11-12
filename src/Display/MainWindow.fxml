@@ -5,23 +5,19 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 
 <?import java.lang.Double?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<HBox fx:id="mainP" prefHeight="$HEIGHT" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
+<HBox  prefHeight="$HEIGHT" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="Display.MainWindow" onKeyPressed="#KeyPressed">
     <fx:define>
         <Double fx:id="HEIGHT" fx:value="600"/>
     </fx:define>
     <padding>
-        <Insets bottom="0" left="0" right="0" top="0"/>
+        <Insets/>
     </padding>
     <StackPane>
         <Canvas fx:id="terCanvas" height="$HEIGHT" width="$HEIGHT">
@@ -29,10 +25,10 @@
                 <Insets/>
             </HBox.margin>
         </Canvas>
-        <Canvas fx:id="sityCanvas" height="$HEIGHT" width="$HEIGHT"></Canvas>
-        <Canvas fx:id="gridCanvas"  height="$HEIGHT" width="$HEIGHT"></Canvas>
-        <Canvas fx:id="debugCanvas" height="$HEIGHT" width="$HEIGHT"></Canvas>
-        <Canvas fx:id="polutionCanvas" height="$HEIGHT" width="$HEIGHT"></Canvas>
+        <Canvas fx:id="sityCanvas" height="$HEIGHT" width="$HEIGHT"/>
+        <Canvas fx:id="gridCanvas"  height="$HEIGHT" width="$HEIGHT"/>
+        <Canvas fx:id="debugCanvas" height="$HEIGHT" width="$HEIGHT"/>
+        <Canvas fx:id="polutionCanvas" height="$HEIGHT" width="$HEIGHT"/>
         <Canvas fx:id="pickCanvas" height="$HEIGHT" width="$HEIGHT" onMouseMoved="#MouseMoved" onMouseClicked="#mouseCliked" onMouseExited="#mouseExited">
             <cursor>
                 <Cursor fx:constant="CROSSHAIR"/>
@@ -40,14 +36,12 @@
         </Canvas>
     </StackPane>
     <VBox alignment="CENTER" minHeight="$HEIGHT" minWidth="200.0" spacing="20.0" HBox.hgrow="NEVER">
-        <children>
             <Button mnemonicParsing="false" onAction="#evalButton" text="Regenerate"/>
             <Button mnemonicParsing="false" onAction="#gridModeButton" text="Grid"/>
             <Slider fx:id="slider1" min="1" max="10" value="1" visible="false"/>
             <Slider fx:id="slider2" min="1" max="90" value="1" visible="false"/>
             <Slider fx:id="slider3" min="1" max="10" value="1" visible="false"/>
             <Button fx:id="calcButton" onAction="#calcButton" text="Calculate" disable="true"/>
-        </children>
         <opaqueInsets>
             <Insets/>
         </opaqueInsets>
