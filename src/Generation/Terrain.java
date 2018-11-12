@@ -18,7 +18,7 @@ public class Terrain {
     private double[][] safetyMap;
     private Properties prop;
     private double overallPopulationPers;
-    static final private double acceptebleSityPers = 0.2d;
+    static final private double acceptebleSityPers = 0.4d;
 
 
     public Terrain(int width, int height, int gridSize) {

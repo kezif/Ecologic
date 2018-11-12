@@ -135,9 +135,9 @@ public class MainWindow {
 
     public void mouseExited() {
         if (picked.x == Integer.MAX_VALUE) {
-            GraphicsContext gc = pickCanvas.getGraphicsContext2D();
-            gc.clearRect(0, 0, pickCanvas.getWidth(), pickCanvas.getWidth());
+            CanvasGraphics.clearCanvas(pickCanvas);
         }
+        zoneNameLabel.setVisible(false);
     }
 
     private Boolean pick = false;
