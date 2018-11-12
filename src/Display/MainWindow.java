@@ -3,7 +3,8 @@ package Display;
 import Generation.Terrain;
 import Utils.Vector2d;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -36,7 +37,7 @@ public class MainWindow {
         RerollButtonPressed();
         CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize());
         picked.setBoth(Integer.MAX_VALUE);
-        System.out.println("done");
+        System.out.println("done!");
     }
 
     @FXML
