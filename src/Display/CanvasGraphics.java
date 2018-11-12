@@ -72,7 +72,7 @@ public class CanvasGraphics {
                 for (int k = -1; k <= 1; k++) {
                     for (int l = -1; l <= 1; l++) {
                         if (pMap[(int) (cI + k * pasi)][(int) (cJ + l * pasi)] > 0 && maxBuilding > count) {
-                            drawHouseType(gc, cI - size / 2 + k * pasi, cJ - size / 2 + l * pasi, size, sMap[(int) (cI + k * pasi)][(int) (cJ + l * pasi)]);
+                            //drawHouseType(gc, cI - size / 2 + k * pasi, cJ - size / 2 + l * pasi, size, sMap[(int) (cI + k * pasi)][(int) (cJ + l * pasi)]);
                             count++;
                         }
                     }

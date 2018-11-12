@@ -69,7 +69,7 @@ public class Terrain {
     }
 
     public int getToGridSize(double v){
-        return (int)Math.round(v / gridSize ) * gridSize;
+        return (int)Math.floor(v / gridSize ) * gridSize;
     }
 
     public static int getToGridSize(double v, int gridSize){
@@ -241,8 +241,8 @@ public class Terrain {
         int y = getToGridSize(Y);
         double[][] map = getMap(type);
         double value = 0;
-        for (int i = (int) x; i < x + gridSize; i++) {
-            for (int j = (int) y; j < y + gridSize; j++) {
+        for (int i =  x; i < x + gridSize; i++) {
+            for (int j = y; j < y + gridSize; j++) {
                 value += map[i][j];
             }
         }

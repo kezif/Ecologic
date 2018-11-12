@@ -78,6 +78,11 @@ public class MainWindow {
     @FXML
     public void MouseMoved(MouseEvent e) {
         highlightSquare(e.getX(), e.getY());
+        double curSaf = terrain.getSquareAverenge(e.getX(), e.getY(), "SAFETY");
+        Vector2d[] nei = Terrain.getNeighbors(e.getX(), e.getY(), terrain.getGridSize(), 1);
+        for(Vector2d n : nei){
+            //if(curSaf == )
+        }
     }
 
     private int pX = Integer.MAX_VALUE;
