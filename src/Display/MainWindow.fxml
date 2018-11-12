@@ -4,7 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -27,21 +26,18 @@
         </Canvas>
         <Canvas fx:id="sityCanvas" height="$HEIGHT" width="$HEIGHT"/>
         <Canvas fx:id="gridCanvas"  height="$HEIGHT" width="$HEIGHT"/>
-        <Canvas fx:id="debugCanvas" height="$HEIGHT" width="$HEIGHT"/>
-        <Canvas fx:id="polutionCanvas" height="$HEIGHT" width="$HEIGHT"/>
-        <Canvas fx:id="pickCanvas" height="$HEIGHT" width="$HEIGHT" onMouseMoved="#MouseMoved" onMouseClicked="#mouseCliked" onMouseExited="#mouseExited">
+        <Canvas fx:id="calcCanvas" height="$HEIGHT" width="$HEIGHT"/>
+        <Canvas fx:id="pollutionCanvas" height="$HEIGHT" width="$HEIGHT"/>
+        <Canvas fx:id="pickCanvas" height="$HEIGHT" width="$HEIGHT" onMouseMoved="#MouseMoved" onMouseClicked="#mouseClicked" onMouseExited="#mouseExited">
             <cursor>
                 <Cursor fx:constant="CROSSHAIR"/>
             </cursor>
         </Canvas>
     </StackPane>
     <VBox alignment="CENTER" minHeight="$HEIGHT" minWidth="200.0" spacing="20.0" HBox.hgrow="NEVER">
-            <Button mnemonicParsing="false" onAction="#evalButton" text="Regenerate"/>
+            <Button mnemonicParsing="false" onAction="#RerollButtonPressed" text="Regenerate"/>
             <Button mnemonicParsing="false" onAction="#gridModeButton" text="Grid"/>
-            <Slider fx:id="slider1" min="1" max="10" value="1" visible="false"/>
-            <Slider fx:id="slider2" min="1" max="90" value="1" visible="false"/>
-            <Slider fx:id="slider3" min="1" max="10" value="1" visible="false"/>
-            <Button fx:id="calcButton" onAction="#calcButton" text="Calculate" disable="true"/>
+            <Button fx:id="calcButton" onAction="#calculationButton" text="Calculate" disable="true"/>
         <opaqueInsets>
             <Insets/>
         </opaqueInsets>

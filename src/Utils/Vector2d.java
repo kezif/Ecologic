@@ -13,4 +13,12 @@ public class Vector2d {
         this.x = (int)Math.round(x);
         this.y = (int)Math.round(y);
     }
+
+    public Vector2d(){
+    }
+
+    public void setBoth(int v){
+        this.x = v;
+        this.y = v;
+    }
 }
