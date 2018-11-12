@@ -79,7 +79,7 @@ public class MainWindow {
     public void MouseMoved(MouseEvent e) {
         highlightSquare(e.getX(), e.getY());
         double curSaf = terrain.getSquareAverenge(e.getX(), e.getY(), "SAFETY");
-        Vector2d[] nei = Terrain.getNeighbors(e.getX(), e.getY(), terrain.getGridSize(), 1);
+        Vector2d[] nei = terrain.getNeighbors(e.getX(), e.getY(), 1);
         for(Vector2d n : nei){
             //if(curSaf == )
         }
@@ -152,7 +152,7 @@ public class MainWindow {
         picked = !picked;
         if(picked){
             CanvasGraphics.clearCanvas(polutionCanvas);
-            Vector2d[] surCoord = Terrain.getNeighbors(pX, pY, terrain.getGridSize(),minGrid);
+            Vector2d[] surCoord = terrain.getNeighbors(pX, pY,minGrid);
             GraphicsContext gc = polutionCanvas.getGraphicsContext2D();
             int gridSize = terrain.getGridSize();
             gc.setFill(Color.color(.3, 0.3, 1, 0.2));

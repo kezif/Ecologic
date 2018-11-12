@@ -15,6 +15,8 @@ public class CanvasGraphics {
 
 
     static Properties prop;
+    //TODO неплонтняя заселеность города чтобы можно было ставить внутрь города
+    //TODO Подсветка области
 
     public static void readProp() {
         prop = ReadResourse.getProperty("res/display.properties");
