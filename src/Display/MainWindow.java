@@ -63,7 +63,7 @@ public class MainWindow {
     private void resetPicked(){
         picked.setBoth(Integer.MAX_VALUE);
         pick = false;
-        calcButton.setDisable(false);
+        calcButton.setDisable(true);
         zoneNameLabel.setVisible(false);
         CanvasGraphics.clearCanvas(calcCanvas);
         CanvasGraphics.clearCanvas(pickCanvas);

@@ -108,7 +108,7 @@ public class Terrain {
     public Zone getSquareZone(int x, int y){
         x = getToGridSize(x);
         y = getToGridSize(y);
-        double value = getSquareAverenge(x, y, "SAFETY");
+        double value = getSquareAverage(x, y, "SAFETY");
         if(value == 0)
             return Zone.DIRT;
         else if (value < Double.parseDouble(prop.getProperty("houseV")))
@@ -179,7 +179,7 @@ public class Terrain {
 
 
     public int getDensity(int i, int j) {
-        return (int)Math.round((getSquareAverenge(i,j, "POPULATION")*10));
+        return (int)Math.round((getSquareAverage(i,j, "POPULATION")*10));
         //return 1 + (int) Math.round((int) (populationMap[i][(j)] * 10));
     }
 
@@ -251,7 +251,7 @@ public class Terrain {
         return value;
     }
 
-    public double getSquareAverenge(double X, double Y, String type) {
+    public double getSquareAverage(double X, double Y, String type) {
         int x = getToGridSize(X);
         int y = getToGridSize(Y);
         double[][] map = getMap(type);
