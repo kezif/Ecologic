@@ -38,7 +38,7 @@ public class Terrain {
         generatePopul();
         generateSafetyMap();
         generateOverallPopulationPers();
-        if(overallPopulationPers < acceptebleSityPers){
+        if (overallPopulationPers < acceptebleSityPers) {
             reroll();
         }
     }
@@ -67,12 +67,12 @@ public class Terrain {
         return Math.floor(v * step) / step;
     }
 
-    private int getToGridSize(double v){
-        return (int)(v / gridSize ) * gridSize;
+    private int getToGridSize(double v) {
+        return (int) (v / gridSize) * gridSize;
     }
 
-    public static int getToGridSize(double v, int gridSize){
-        return (int)(v / gridSize ) * gridSize;
+    public static int getToGridSize(double v, int gridSize) {
+        return (int) (v / gridSize) * gridSize;
     }
 
 
@@ -91,7 +91,7 @@ public class Terrain {
         }
 
         //popMap =
-                gridify(popMap, gridSize);
+        gridify(popMap, gridSize);
 
         if (waterMap != null) {
             for (int i = 0; i < height; i++) {
@@ -105,11 +105,11 @@ public class Terrain {
         this.populationMap = popMap;
     }
 
-    public Zone getSquareZone(int x, int y){
+    public Zone getSquareZone(int x, int y) {
         x = getToGridSize(x);
         y = getToGridSize(y);
         double value = getSquareAverage(x, y, "SAFETY");
-        if(value == 0)
+        if (value == 0)
             return Zone.DIRT;
         else if (value < Double.parseDouble(prop.getProperty("houseV")))
             return Zone.HOUSE;
@@ -121,8 +121,8 @@ public class Terrain {
 
     private void generateOverallPopulationPers() {
         double value = 0;
-        double hGridC = height / (double)gridSize;
-        double wGridC = width / (double)gridSize;
+        double hGridC = height / (double) gridSize;
+        double wGridC = width / (double) gridSize;
         for (int i = 0; i < height; i += gridSize) {
             for (int j = 0; j < width; j += gridSize) {
                 value += getSquareBinCount(i, j, "POPULATION");
@@ -179,7 +179,7 @@ public class Terrain {
 
 
     public int getDensity(int i, int j) {
-        return (int)Math.round((getSquareAverage(i,j, "POPULATION")*10));
+        return (int) Math.round((getSquareAverage(i, j, "POPULATION") * 10));
         //return 1 + (int) Math.round((int) (populationMap[i][(j)] * 10));
     }
 
@@ -256,7 +256,7 @@ public class Terrain {
         int y = getToGridSize(Y);
         double[][] map = getMap(type);
         double value = 0;
-        for (int i =  x; i < x + gridSize; i++) {
+        for (int i = x; i < x + gridSize; i++) {
             for (int j = y; j < y + gridSize; j++) {
                 value += map[i][j];
             }
@@ -291,21 +291,21 @@ public class Terrain {
             System.out.println(String.format("Average height - %f\nAverage population - not a sity\nPermission - %f\nWater persentage - %f\n ", heightPers, safePers, waterPers));
     }
 
-    public ArrayList<Vector2d> getNeighbors(double X, double Y, int radius){
+    public ArrayList<Vector2d> getNeighbors(double X, double Y, int radius) {
         int x = getToGridSize(X, gridSize);
         int y = getToGridSize(Y, gridSize);
         ArrayList<Vector2d> neighbors = new ArrayList<>();//new Vector2d[radius*100];
         int count = 0;
         for (int i = -radius; i <= radius; i++) {
-            for (int j = -radius; j <= radius+1; j++) {
-                if (i * i + j * j <= radius * radius+1){
-                    int desiredX = i*gridSize + x;
-                    int desiredY = j*gridSize + y;
+            for (int j = -radius; j <= radius + 1; j++) {
+                if (i * i + j * j <= radius * radius + 1) {
+                    int desiredX = i * gridSize + x;
+                    int desiredY = j * gridSize + y;
                     //neighbors[count++] = new Vector2d(desiredX, desiredY);
                     neighbors.add(new Vector2d(desiredX, desiredY));
-                    neighbors.removeIf(f -> f.x < 0 || f.x > height-gridSize || f.y < 0 || f.y > width-gridSize || (f.x == x && f.y == y));
+                    neighbors.removeIf(f -> f.x < 0 || f.x > height - gridSize || f.y < 0 || f.y > width - gridSize || (f.x == x && f.y == y));
                     //if((i == 0 && j == 0) || desiredX < 0 || desiredX > height-gridSize || desiredY < 0 || desiredY > width-gridSize)
-                        //neighbors[count--] = null;
+                    //neighbors[count--] = null;
                 }
             }
         }

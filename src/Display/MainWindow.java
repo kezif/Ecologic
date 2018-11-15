@@ -60,7 +60,7 @@ public class MainWindow {
         CanvasGraphics.clearCanvas(pollutionCanvas);*/
     }
 
-    private void resetPicked(){
+    private void resetPicked() {
         picked.setBoth(Integer.MAX_VALUE);
         pick = false;
         calcButton.setDisable(true);
@@ -79,7 +79,7 @@ public class MainWindow {
     @FXML
     public void MouseMoved(MouseEvent e) {
         highlightSquare(e.getX(), e.getY());
-        CanvasGraphics.highlightZone(calcCanvas,terrain, new Vector2d(e.getX(), e.getY()),zoneNameLabel);
+        CanvasGraphics.highlightZone(calcCanvas, terrain, new Vector2d(e.getX(), e.getY()), zoneNameLabel);
     }
 
     private Vector2d picked = new Vector2d();
@@ -106,6 +106,7 @@ public class MainWindow {
 
     @FXML
     public void mouseClicked(MouseEvent e) {
+        //Еба код который или подсвечивает ячейку на которую наведена мышь или же, если ячейка выбрана, подсвечивает ее
         pick = false;
         int gridSize = terrain.getGridSize();
         int min = gridSize * minGrid;
@@ -135,6 +136,7 @@ public class MainWindow {
     }
 
     public void mouseExited() {
+        //Если ячейка не выбрана, то не показывает выделение
         if (picked.x == Integer.MAX_VALUE) {
             CanvasGraphics.clearCanvas(pickCanvas);
         }
@@ -142,17 +144,18 @@ public class MainWindow {
     }
 
     private Boolean pick = false;
+
     public void calculationButton() {
         pick = !pick;
-        if(pick){
+        if (pick) {
             CanvasGraphics.clearCanvas(pollutionCanvas);
-            ArrayList<Vector2d> surCoord = terrain.getNeighbors(picked.x, picked.y,minGrid);
+            ArrayList<Vector2d> surCoord = terrain.getNeighbors(picked.x, picked.y, minGrid);
             GraphicsContext gc = pollutionCanvas.getGraphicsContext2D();
             int gridSize = terrain.getGridSize();
             gc.setFill(Color.color(.3, 0.3, 1, 0.2));
             for (Vector2d c : surCoord) {
-                if (c != null){
-                    gc.fillRect(c.x,c.y,gridSize, gridSize);
+                if (c != null) {
+                    gc.fillRect(c.x, c.y, gridSize, gridSize);
                 }
             }
             //coolCalculation(pX,pY);
