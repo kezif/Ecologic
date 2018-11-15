@@ -12,10 +12,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <HBox prefHeight="$HEIGHT" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="Display.MainWindow" onKeyPressed="#KeyPressed">
     <fx:define>
         <Double fx:id="HEIGHT" fx:value="600"/>
+        <Double fx:id="BUTTON_WIDTH" fx:value="120"/>
     </fx:define>
     <padding>
         <Insets/>
@@ -27,10 +30,10 @@
             </HBox.margin>
         </Canvas>
         <Canvas fx:id="sityCanvas" height="$HEIGHT" width="$HEIGHT"/>
-        <Canvas fx:id="gridCanvas"  height="$HEIGHT" width="$HEIGHT"/>
-        <Canvas fx:id="calcCanvas" height="$HEIGHT" width="$HEIGHT"/>
+        <Canvas fx:id="gridCanvas" height="$HEIGHT" width="$HEIGHT"/>
+        <Canvas fx:id="zoneCanvas" height="$HEIGHT" width="$HEIGHT"/>
         <Canvas fx:id="pollutionCanvas" height="$HEIGHT" width="$HEIGHT"/>
-        <Label fx:id="zoneNameLabel" visible="false"   textFill="coral" >
+        <Label fx:id="zoneNameLabel" visible="false" textFill="coral">
             <padding>
                 <Insets top="30"></Insets>
             </padding>
@@ -38,7 +41,8 @@
                 <Font name="Arial Bold" size="20.0"/>
             </font>
         </Label>
-        <Canvas fx:id="pickCanvas" height="$HEIGHT" width="$HEIGHT" onMouseMoved="#MouseMoved" onMouseClicked="#mouseClicked" onMouseExited="#mouseExited">
+        <Canvas fx:id="pickCanvas" height="$HEIGHT" width="$HEIGHT" onMouseMoved="#MouseMoved"
+                onMouseClicked="#mouseClicked" onMouseExited="#mouseExited">
             <cursor>
                 <Cursor fx:constant="CROSSHAIR"/>
             </cursor>
@@ -46,9 +50,17 @@
 
     </StackPane>
     <VBox alignment="CENTER" minHeight="$HEIGHT" minWidth="200.0" spacing="20.0" HBox.hgrow="NEVER">
-            <Button mnemonicParsing="false" onAction="#RerollButtonPressed" text="Regenerate"/>
-            <Button mnemonicParsing="false" onAction="#gridModeButton" text="Grid"/>
-            <Button fx:id="calcButton" onAction="#calculationButton" text="Calculate" disable="true"/>
+        <Label fx:id="regionLabel"/>
+        <Button mnemonicParsing="false" onAction="#regionInfoButton" text="Об регионе.." prefWidth="$BUTTON_WIDTH"/>
+        <Button text="spacing :(" visible="false" disable="true"/>
+        <Button mnemonicParsing="false" onAction="#RerollButton" text="Regenerate" prefWidth="$BUTTON_WIDTH"/>
+        <Button mnemonicParsing="false" onAction="#gridModeButton" text="Сетка" prefWidth="$BUTTON_WIDTH"/>
+        <Button fx:id="calcButton" onAction="#calculationButton" text="Вычислить" disable="true"
+                prefWidth="$BUTTON_WIDTH"/>
+        <Button text="spacing :(" visible="false" disable="true"/>
+        <ListView fx:id="companiesListView" prefHeight="150"/>
+        <Button fx:id="companyInfoButton" mnemonicParsing="false" onAction="#InfoCompanyButton" text="Информация о пр."
+                disable="true" prefWidth="$BUTTON_WIDTH"/>
         <opaqueInsets>
             <Insets/>
         </opaqueInsets>

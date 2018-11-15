@@ -19,6 +19,7 @@ public class Terrain {
     private Properties prop;
     private double overallPopulationPers;
     static final private double acceptebleSityPers = 0.4d;
+    private Region region;
 
 
     public Terrain(int width, int height, int gridSize) {
@@ -34,6 +35,7 @@ public class Terrain {
         seed = new Random().nextInt(9999);
         Pseed = new Random().nextInt(9999);
         Sseed = new Random().nextInt(9999);
+        region = generateRegion();
         generateHeightNwaterMap();
         generatePopul();
         generateSafetyMap();
@@ -41,6 +43,11 @@ public class Terrain {
         if (overallPopulationPers < acceptebleSityPers) {
             reroll();
         }
+    }
+
+    private Region generateRegion() {
+        int pick = new Random().nextInt(Region.values().length);
+        return Region.values()[pick];
     }
 
     private void generateHeightNwaterMap() {
@@ -213,6 +220,10 @@ public class Terrain {
 
     public double getOverallPopulationPers() {
         return overallPopulationPers;
+    }
+
+    public Region getRegion() {
+        return region;
     }
 
     public double[][] getMap(String name) {

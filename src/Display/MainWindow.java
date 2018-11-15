@@ -1,17 +1,25 @@
 package Display;
 
+import Calcul.Calculations.Company;
 import Generation.Terrain;
+import Utils.DataFromExcel.ExcelParser;
 import Utils.Vector2d;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -22,31 +30,63 @@ public class MainWindow {
     public Canvas gridCanvas;
     public Canvas pickCanvas;
     public Canvas sityCanvas;
-    public Canvas calcCanvas;
+    public Canvas zoneCanvas;
     public Button calcButton;
     public Canvas pollutionCanvas;
     public Label zoneNameLabel;
+    public ListView companiesListView;
+    public Button companyInfoButton;
+    public Label regionLabel;
 
     private int minGrid = 3;
     private Terrain terrain;
+    private Company company;
+    private Boolean companyPicked;
+    private Boolean picked = false;
+    private Vector2d pick = new Vector2d();
+    private ExcelParser parser;
+
+
 
     @FXML
     private void initialize() {
-        System.out.println("init");
+        System.out.println("Initialization...");
         this.terrain = new Terrain((int) terCanvas.getWidth(), (int) terCanvas.getHeight(), (int) terCanvas.getWidth() / 20);
-        RerollButtonPressed();
+        RerollButton();
         CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize());
-        picked.setBoth(Integer.MAX_VALUE);
+        pick.setBoth(Integer.MAX_VALUE);
+        System.out.println("Done generating\nReading company names...\n---");
+        readCompaniesNames();
         System.out.println("done!");
+        CompaniesListViewValueChanged(); //listening to listview values
+    }
+
+    private void readCompaniesNames(){
+        String[] companies = null;
+        parser = null;
+        try {
+            parser = new ExcelParser("res/parametry_vybrosov_ZV.xls");
+            try {
+                companies = parser.getSheetList();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } catch (FileNotFoundException e2) {
+            e2.printStackTrace();
+        }
+        ObservableList<String> companiesList = FXCollections.observableArrayList(companies);
+        companiesListView.setItems(companiesList);
     }
 
     @FXML
-    public void RerollButtonPressed() {
+    public void RerollButton() {
+        System.out.println("---");
         long startTime = System.nanoTime(); //timer
         terrain.reroll();
         long endTime = System.nanoTime(); //timer
         long duration = (endTime - startTime); //timer
-        System.out.println(String.format("generation in %d ms", duration / 1000000)); //timer
+        regionLabel.setText("Текущая область:\n" + terrain.getRegion().toString());
+        System.out.println(String.format("Generation in %d ms", duration / 1000000)); //timer
         startTime = System.nanoTime(); //timer
         CanvasGraphics.readProp();
         CanvasGraphics.drawHeightNwater(terCanvas, terrain);
@@ -56,16 +96,16 @@ public class MainWindow {
         System.out.println(String.format("Draw in %d ms", duration / 1000000)); //timer
         System.out.println("---");
         resetPicked();
-        /*highlightSquare(picked.x, picked.y);
+        /*highlightSquare(CompaniesListViewValueChanged.x, CompaniesListViewValueChanged.y);
         CanvasGraphics.clearCanvas(pollutionCanvas);*/
     }
 
     private void resetPicked() {
-        picked.setBoth(Integer.MAX_VALUE);
-        pick = false;
+        pick.setBoth(Integer.MAX_VALUE);
+        picked = false;
         calcButton.setDisable(true);
         zoneNameLabel.setVisible(false);
-        CanvasGraphics.clearCanvas(calcCanvas);
+        CanvasGraphics.clearCanvas(zoneCanvas);
         CanvasGraphics.clearCanvas(pickCanvas);
         CanvasGraphics.clearCanvas(pollutionCanvas);
     }
@@ -79,10 +119,9 @@ public class MainWindow {
     @FXML
     public void MouseMoved(MouseEvent e) {
         highlightSquare(e.getX(), e.getY());
-        CanvasGraphics.highlightZone(calcCanvas, terrain, new Vector2d(e.getX(), e.getY()), zoneNameLabel);
+        CanvasGraphics.highlightZone(zoneCanvas, terrain, new Vector2d(e.getX(), e.getY()), zoneNameLabel);
     }
 
-    private Vector2d picked = new Vector2d();
 
     private void highlightSquare(double X, double Y) {
         //TODO move to canvasGraphics
@@ -92,14 +131,14 @@ public class MainWindow {
         GraphicsContext gc = pickCanvas.getGraphicsContext2D();
         gc.clearRect(0, 0, pickCanvas.getWidth(), pickCanvas.getWidth());
         int min = gridSize * minGrid;
-        if (picked.x == Integer.MAX_VALUE && picked.y == Integer.MAX_VALUE) {
+        if (pick.x == Integer.MAX_VALUE && pick.y == Integer.MAX_VALUE) {
             if (x >= min && x < pickCanvas.getHeight() - min && y >= min && y < pickCanvas.getHeight() - min) {
                 gc.setFill(Color.color(1, 1, 1, 0.2));
                 gc.fillRect(x, y, gridSize, gridSize);
             }
         } else {
             gc.setFill(Color.color(0, 0, 0, 0.3));
-            gc.fillRect(picked.x, picked.y, gridSize, gridSize);
+            gc.fillRect(pick.x, pick.y, gridSize, gridSize);
         }
 
     }
@@ -107,12 +146,12 @@ public class MainWindow {
     @FXML
     public void mouseClicked(MouseEvent e) {
         //Еба код который или подсвечивает ячейку на которую наведена мышь или же, если ячейка выбрана, подсвечивает ее
-        pick = false;
+        picked = false;
         int gridSize = terrain.getGridSize();
         int min = gridSize * minGrid;
         int x = (int) (e.getX() / gridSize) * gridSize;
         int y = (int) (e.getY() / gridSize) * gridSize;
-        if (picked.x == x && picked.y == y) {
+        if (pick.x == x && pick.y == y) {
             resetPicked();
             highlightSquare(Double.MAX_VALUE, Double.MAX_VALUE);
             return;
@@ -120,8 +159,8 @@ public class MainWindow {
         highlightSquare(e.getX(), e.getY());
         if (x >= min && x < pickCanvas.getHeight() - min && y >= min && y < pickCanvas.getHeight() - min) {
             CanvasGraphics.clearCanvas(pollutionCanvas);
-            picked.x = x;
-            picked.y = y;
+            pick.x = x;
+            pick.y = y;
             calcButton.setDisable(false);
             MouseMoved(e);
         }
@@ -135,21 +174,23 @@ public class MainWindow {
         }
     }
 
+    @FXML
     public void mouseExited() {
         //Если ячейка не выбрана, то не показывает выделение
-        if (picked.x == Integer.MAX_VALUE) {
+        if (pick.x == Integer.MAX_VALUE) {
             CanvasGraphics.clearCanvas(pickCanvas);
         }
+        CanvasGraphics.clearCanvas(zoneCanvas);
         zoneNameLabel.setVisible(false);
     }
 
-    private Boolean pick = false;
 
+    @FXML
     public void calculationButton() {
-        pick = !pick;
-        if (pick) {
+        picked = !picked;
+        if (picked) {
             CanvasGraphics.clearCanvas(pollutionCanvas);
-            ArrayList<Vector2d> surCoord = terrain.getNeighbors(picked.x, picked.y, minGrid);
+            ArrayList<Vector2d> surCoord = terrain.getNeighbors(pick.x, pick.y, minGrid);
             GraphicsContext gc = pollutionCanvas.getGraphicsContext2D();
             int gridSize = terrain.getGridSize();
             gc.setFill(Color.color(.3, 0.3, 1, 0.2));
@@ -162,6 +203,29 @@ public class MainWindow {
         } else
             CanvasGraphics.clearCanvas(pollutionCanvas);
 
+    }
 
+    @FXML
+    private void CompaniesListViewValueChanged(){
+        companiesListView.getSelectionModel().selectedItemProperty()
+                .addListener((ChangeListener<String>) (observable, oldValue, newValue) -> {
+                    companyInfoButton.setDisable(!(companyPicked = true));
+                    company  = null;
+                    try {
+                        company = parser.getData(newValue);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    System.out.println(company);
+                });
+    }
+
+    @FXML
+    public void InfoCompanyButton() {
+        CompanyInfoFrom.display(company);
+    }
+
+    public void regionInfoButton() {
+        RegionInfoFrom.display(terrain.getRegion());
     }
 }
