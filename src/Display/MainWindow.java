@@ -210,7 +210,6 @@ public class MainWindow {
         companiesListView.getSelectionModel().selectedItemProperty()
                 .addListener((ChangeListener<String>) (observable, oldValue, newValue) -> {
                     companyInfoButton.setDisable(!(companyPicked = true));
-                    company  = null;
                     try {
                         company = parser.getData(newValue);
                     } catch (IOException e1) {
