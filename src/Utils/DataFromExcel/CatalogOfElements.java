@@ -39,7 +39,6 @@ public class CatalogOfElements {
 	}
 	
 	private void init() {
-		// TODO Auto-generated method stub
 
 	}
 	

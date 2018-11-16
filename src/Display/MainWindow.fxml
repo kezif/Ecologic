@@ -24,11 +24,7 @@
         <Insets/>
     </padding>
     <StackPane alignment="TOP_CENTER">
-        <Canvas fx:id="terCanvas" height="$HEIGHT" width="$HEIGHT">
-            <HBox.margin>
-                <Insets/>
-            </HBox.margin>
-        </Canvas>
+        <Canvas fx:id="terCanvas" height="$HEIGHT" width="$HEIGHT"/>
         <Canvas fx:id="sityCanvas" height="$HEIGHT" width="$HEIGHT"/>
         <Canvas fx:id="gridCanvas" height="$HEIGHT" width="$HEIGHT"/>
         <Canvas fx:id="zoneCanvas" height="$HEIGHT" width="$HEIGHT"/>
