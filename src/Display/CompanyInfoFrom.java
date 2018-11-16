@@ -3,7 +3,6 @@ package Display;
 import Calcul.Calculations.Company;
 import Calcul.Calculations.Element;
 import Utils.DataFromExcel.CatalogOfElements;
-import Utils.DataFromExcel.ExcelParser;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,11 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 
-import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
-import static javafx.scene.control.TableView.UNCONSTRAINED_RESIZE_POLICY;
 
 public class CompanyInfoFrom {
     public static void display(Company c) {

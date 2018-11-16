@@ -38,10 +38,10 @@ public class MainWindow {
     public Button companyInfoButton;
     public Label regionLabel;
 
-    private int minGrid = 3;
+    private int minGrid;
     private Terrain terrain;
     private Company company;
-    private Boolean companyPicked;
+    private Boolean companyPicked = false;
     private Boolean picked = false;
     private Vector2d pick = new Vector2d();
     private ExcelParser parser;
@@ -55,6 +55,7 @@ public class MainWindow {
         RerollButton();
         CanvasGraphics.initializeGrid(gridCanvas, terrain.getGridSize());
         pick.setBoth(Integer.MAX_VALUE);
+        minGrid = CanvasGraphics.getMinWidth();
         System.out.println("Done generating\nReading company names...\n---");
         readCompaniesNames();
         System.out.println("done!");
@@ -161,9 +162,14 @@ public class MainWindow {
             CanvasGraphics.clearCanvas(pollutionCanvas);
             pick.x = x;
             pick.y = y;
-            calcButton.setDisable(false);
+            picked = true;
+            checkEnableCalcButton();
             MouseMoved(e);
         }
+    }
+
+    private void checkEnableCalcButton() {
+        calcButton.setDisable(!(picked && companyPicked));
     }
 
     @FXML
@@ -187,7 +193,7 @@ public class MainWindow {
 
     @FXML
     public void calculationButton() {
-        picked = !picked;
+        //picked = !picked;
         if (picked) {
             CanvasGraphics.clearCanvas(pollutionCanvas);
             ArrayList<Vector2d> surCoord = terrain.getNeighbors(pick.x, pick.y, minGrid);
@@ -209,7 +215,9 @@ public class MainWindow {
     private void CompaniesListViewValueChanged(){
         companiesListView.getSelectionModel().selectedItemProperty()
                 .addListener((ChangeListener<String>) (observable, oldValue, newValue) -> {
-                    companyInfoButton.setDisable(!(companyPicked = true));
+                    companyPicked = true;
+                    companyInfoButton.setDisable(!(companyPicked));
+                    checkEnableCalcButton();
                     try {
                         company = parser.getData(newValue);
                     } catch (IOException e1) {

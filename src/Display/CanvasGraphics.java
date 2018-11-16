@@ -23,6 +23,10 @@ public class CanvasGraphics {
         prop = ReadResourse.getProperty("res/display.properties");
     }
 
+    static int getMinWidth(){
+        return Integer.parseInt(prop.getProperty("padding"));
+    }
+
     public static void drawHeightNwater(Canvas canvas, Terrain terrain) {
         double[][] Hmap = terrain.getHeightMap();
         double[][] Wmap = terrain.getWaterMap();
