@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Display.ReportWindow"
+      prefHeight="400.0" prefWidth="600.0"
+alignment="CENTER" spacing="10">
+    <padding>
+        <Insets top="10" bottom="10" left="10" right="10"/>
+    </padding>
+
+    <Label text="Результаты постройки"/>
+    <Region prefHeight="30"/>
+    <Label fx:id="reportLabel" text="Ужасно"/>
+    <VBox fx:id="elementsTable" alignment="CENTER" spacing="10">
+        <TableView fx:id="table"/>
+        <Button text="Подробнее" onAction="#ExpandButtonClicked"/>
+    </VBox>
+    <HBox alignment="CENTER">
+        <Label text="Стоимость постройки:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="costLabel"/>
+    </HBox>
+    <HBox alignment="CENTER">
+        <Label text="Уровень загрязнения постройки:"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="poluLabel"/>
+    </HBox>
+</VBox>
