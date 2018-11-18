@@ -1,5 +1,6 @@
 package Utils;
 
+
 public class Vector2d {
     public int x;
     public int y;
@@ -21,4 +22,6 @@ public class Vector2d {
         this.x = v;
         this.y = v;
     }
+
+
 }

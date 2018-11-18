@@ -320,7 +320,12 @@ public class Terrain {
                 }
             }
         }
-        return neighbors;
+        ArrayList<Vector2d> n = new ArrayList<>();
+        for (Vector2d c: neighbors) {
+            if(c != null)
+                n.add(c);
+        }
+        return n;
     }
 
 }

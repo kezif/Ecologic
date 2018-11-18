@@ -1,6 +1,7 @@
 package Display;
 
 import Calcul.Calculations.Company;
+import Calcul.Calculations.XY;
 import Generation.Terrain;
 import Utils.DataFromExcel.ExcelParser;
 import Utils.Vector2d;
@@ -8,6 +9,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -18,6 +22,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -214,25 +219,47 @@ public class MainWindow {
                 }
             }
             //coolCalculation(pX,pY);
-            System.out.println(
-                    "Высота - " + compHeightText.getText() +
-                    "\nДиаметр - " + compDiameterText.getText() +
-                    "\nОбъем - " + compVolumeText.getText() +
-                    "\nТемпература - " + compTempText.getText() +
-                    "\nНтри - " + compNthreeText.getText() +
-                    "\n---\n" );
-            company.setH(Double.parseDouble(compHeightText.getText()));
-            company.setD(Double.parseDouble(compDiameterText.getText()));
-            company.setV1(Double.parseDouble(compVolumeText.getText()));
-            company.setTg(Double.parseDouble(compTempText.getText()));
-            company.setN3(Double.parseDouble(compNthreeText.getText()));
-            company.setUm(terrain.getRegion().getSpeedMax());
-            company.setU(terrain.getRegion().getSpeedAv());
-            company.setTv(terrain.getRegion().getTemp());
-            company.calculateConcentration();
+            setCompanyParameters();
+            company.setMapVect(surCoord);
+            showReport();
         } else
             CanvasGraphics.clearCanvas(pollutionCanvas);
+    }
 
+    public void showReport(){
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportWindow.fxml"));
+            Parent root = (Parent) loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            ReportWindow controller = loader.<ReportWindow>getController();
+            controller.initData(company);
+            stage.show();
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void setCompanyParameters(){
+        System.out.println(
+                "Высота - " + compHeightText.getText() +
+                        "\nДиаметр - " + compDiameterText.getText() +
+                        "\nОбъем - " + compVolumeText.getText() +
+                        "\nТемпература - " + compTempText.getText() +
+                        "\nНтри - " + compNthreeText.getText() +
+                        "\n---\n" );
+        company.setH(Double.parseDouble(compHeightText.getText()));
+        company.setD(Double.parseDouble(compDiameterText.getText()));
+        company.setV1(Double.parseDouble(compVolumeText.getText()));
+        company.setTg(Double.parseDouble(compTempText.getText()));
+        company.setN3(Double.parseDouble(compNthreeText.getText()));
+        company.setUm(terrain.getRegion().getSpeedMax());
+        company.setU(terrain.getRegion().getSpeedAv());
+        company.setTv(terrain.getRegion().getTemp());
+        company.calculateConcentration();
+        company.setXy(new XY(pick.x, pick.y));
     }
 
     @FXML

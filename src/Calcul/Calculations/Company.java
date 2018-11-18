@@ -1,5 +1,7 @@
 package Calcul.Calculations;
 
+import Utils.Vector2d;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -470,6 +472,14 @@ public class Company {
 
     }
 
+
+    public void setMapVect(ArrayList<Vector2d> vList){
+        LinkedList<XY> xy = new LinkedList<>();
+        for (Vector2d v: vList) {
+            xy.add(new XY(v.x, v.y));
+        }
+        setMap(xy);
+    }
 
     public void setMap(LinkedList<XY> xy) {
         map = new HashMap<>();
