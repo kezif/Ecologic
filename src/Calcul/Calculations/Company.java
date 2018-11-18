@@ -2,6 +2,7 @@ package Calcul.Calculations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -557,6 +558,43 @@ public class Company {
         return 1 / (1 + 5 * ty + 12.8 * Math.pow(ty, 2) + 17 * Math.pow(ty, 3) + 45.1 * Math.pow(ty, 4));
     }
 
+
+    public void calculateConcentration() {
+        //TODO validation?
+        setW0();
+        setDelt();
+        setF();
+        setVm();
+        setVm1();
+        setFe();
+        setM();
+        setkF();
+        setXmhot();
+        setXmcold();
+        setUdhot();
+        setUdcold();
+        setRhot();
+        setRcold();
+        setXmihot();
+        setXmicold();
+
+        LinkedList<Element> elements = getElements();
+        Iterator iterator = elements.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            Element el = (Element) iterator.next();
+            double n = getN(el.isHot());
+            el.setCm(n, getM(), getkF(), getH(), getDelt(), getV1(), getD());
+            el.setUz();
+            el.setCmi(getRhot(), getRcold());
+
+
+            elements.set(i, el);
+
+            i++;
+        }
+        setElements(elements);
+    }
 
 }
 

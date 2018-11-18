@@ -224,8 +224,12 @@ public class MainWindow {
             company.setH(Double.parseDouble(compHeightText.getText()));
             company.setD(Double.parseDouble(compDiameterText.getText()));
             company.setV1(Double.parseDouble(compVolumeText.getText()));
-            company.setTv(Double.parseDouble(compTempText.getText()));
+            company.setTg(Double.parseDouble(compTempText.getText()));
             company.setN3(Double.parseDouble(compNthreeText.getText()));
+            company.setUm(terrain.getRegion().getSpeedMax());
+            company.setU(terrain.getRegion().getSpeedAv());
+            company.setTv(terrain.getRegion().getTemp());
+            company.calculateConcentration();
         } else
             CanvasGraphics.clearCanvas(pollutionCanvas);
 
