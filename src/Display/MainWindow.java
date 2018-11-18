@@ -202,7 +202,7 @@ public class MainWindow {
     @FXML
     public void calculationButton() {
         //picked = !picked;
-        if (picked) {
+        if (checkEnableCalcButton()) {
             CanvasGraphics.clearCanvas(pollutionCanvas);
             ArrayList<Vector2d> surCoord = terrain.getNeighbors(pick.x, pick.y, minGrid);
             GraphicsContext gc = pollutionCanvas.getGraphicsContext2D();
@@ -214,6 +214,18 @@ public class MainWindow {
                 }
             }
             //coolCalculation(pX,pY);
+            System.out.println(
+                    "Высота - " + compHeightText.getText() +
+                    "\nДиаметр - " + compDiameterText.getText() +
+                    "\nОбъем - " + compVolumeText.getText() +
+                    "\nТемпература - " + compTempText.getText() +
+                    "\nНтри - " + compNthreeText.getText() +
+                    "\n---\n" );
+            company.setH(Double.parseDouble(compHeightText.getText()));
+            company.setD(Double.parseDouble(compDiameterText.getText()));
+            company.setV1(Double.parseDouble(compVolumeText.getText()));
+            company.setTv(Double.parseDouble(compTempText.getText()));
+            company.setN3(Double.parseDouble(compNthreeText.getText()));
         } else
             CanvasGraphics.clearCanvas(pollutionCanvas);
 

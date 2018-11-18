@@ -19,4 +19,8 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
+
+    /*Map<String, Object> namespace = loader.getNamespace();
+        namespace.put("HEIGHT", 800d);
+        namespace.put("BUTTON_WIDTH", 120d);*/
 }
