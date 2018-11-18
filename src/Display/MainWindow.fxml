@@ -13,12 +13,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Region?>
 <HBox prefHeight="$HEIGHT" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="Display.MainWindow" onKeyPressed="#KeyPressed">
     <fx:define>
-        <Double fx:id="HEIGHT" fx:value="600"/>
+        <Double fx:id="HEIGHT" fx:value="800"/>
         <Double fx:id="BUTTON_WIDTH" fx:value="120"/>
+        <Double fx:id="TEXT_WIDTH" fx:value="40"/>
     </fx:define>
     <padding>
         <Insets/>
@@ -43,20 +45,74 @@
                 <Cursor fx:constant="CROSSHAIR"/>
             </cursor>
         </Canvas>
-
     </StackPane>
     <VBox alignment="CENTER" minHeight="$HEIGHT" minWidth="200.0" spacing="20.0" HBox.hgrow="NEVER">
-        <Label fx:id="regionLabel"/>
-        <Button mnemonicParsing="false" onAction="#regionInfoButton" text="Об регионе.." prefWidth="$BUTTON_WIDTH"/>
-        <Button text="spacing :(" visible="false" disable="true"/>
-        <Button mnemonicParsing="false" onAction="#RerollButton" text="Regenerate" prefWidth="$BUTTON_WIDTH"/>
-        <Button mnemonicParsing="false" onAction="#gridModeButton" text="Сетка" prefWidth="$BUTTON_WIDTH"/>
-        <Button fx:id="calcButton" onAction="#calculationButton" text="Вычислить" disable="true"
-                prefWidth="$BUTTON_WIDTH"/>
-        <Button text="spacing :(" visible="false" disable="true"/>
-        <ListView fx:id="companiesListView" prefHeight="150"/>
-        <Button fx:id="companyInfoButton" mnemonicParsing="false" onAction="#InfoCompanyButton" text="Информация о пр."
-                disable="true" prefWidth="$BUTTON_WIDTH"/>
+        <VBox alignment="CENTER" spacing="10">
+            <style>
+                -fx-border-color: grey;
+            </style>
+            <padding>
+                <Insets top="10" bottom="10" left="0" right="0"/>
+            </padding>
+            <Label fx:id="regionLabel"/>
+            <Button mnemonicParsing="false" onAction="#regionInfoButton" text="Об регионе.." prefWidth="$BUTTON_WIDTH"/>
+        </VBox>
+        <Region/>
+        <VBox spacing="10" alignment="CENTER">
+            <style>
+                -fx-border-color: grey;
+            </style>
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+            <Label text="Предприятия:"/>
+            <ListView fx:id="companiesListView" prefHeight="150"/>
+            <Button fx:id="companyInfoButton" mnemonicParsing="false" onAction="#InfoCompanyButton" text="Информация о пр." disable="true" prefWidth="$BUTTON_WIDTH"/>
+            <Region/>
+            <Button mnemonicParsing="false" onAction="#RerollButton" text="Regenerate" prefWidth="$BUTTON_WIDTH"/>
+            <Button mnemonicParsing="false" onAction="#gridModeButton" text="Сетка" prefWidth="$BUTTON_WIDTH"/>
+            <Button fx:id="calcButton" onAction="#calculationButton" text="Разместить" disable="true"
+                    prefWidth="$BUTTON_WIDTH"/>
+        </VBox>
+        <Region/>
+        <VBox spacing="10.0">
+            <style>
+                -fx-border-color: grey;
+            </style>
+            <padding>
+                <Insets top="20" bottom="20" left="10" right="10"/>
+            </padding>
+            <style>
+                -fx-border-color: grey;
+            </style>
+            <Label text="Параметры предприятия:"/>
+            <Region/>
+            <HBox spacing="10">
+                <Label text="H выброса (м):"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="compHeightText" text="50" prefWidth="$TEXT_WIDTH"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="D выброса (м):"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="compDiameterText" text="40" prefWidth="$TEXT_WIDTH"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Расход V1 (м³/с):"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="compVolumeText" text="400" prefWidth="$TEXT_WIDTH"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Тв смеси (°С):"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="compTempText" text="120" prefWidth="$TEXT_WIDTH"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="n3 (%):"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="compNthreeText" text="0.8" prefWidth="$TEXT_WIDTH"/>
+            </HBox>
+        </VBox>
         <opaqueInsets>
             <Insets/>
         </opaqueInsets>
@@ -69,3 +125,8 @@
     </VBox>
 
 </HBox>
+
+
+        <!--
+                <Button text="spacing :(" visible="false" disable="true"/>
+        -->

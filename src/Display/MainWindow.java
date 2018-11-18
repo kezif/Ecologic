@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -37,6 +38,11 @@ public class MainWindow {
     public ListView companiesListView;
     public Button companyInfoButton;
     public Label regionLabel;
+    public TextField compHeightText;
+    public TextField compDiameterText;
+    public TextField compVolumeText;
+    public TextField compTempText;
+    public TextField compNthreeText;
 
     private int minGrid;
     private Terrain terrain;
@@ -45,7 +51,7 @@ public class MainWindow {
     private Boolean picked = false;
     private Vector2d pick = new Vector2d();
     private ExcelParser parser;
-
+    private boolean inputValid = true;
 
 
     @FXML
@@ -168,8 +174,10 @@ public class MainWindow {
         }
     }
 
-    private void checkEnableCalcButton() {
-        calcButton.setDisable(!(picked && companyPicked));
+    private boolean checkEnableCalcButton() {
+        boolean b = ((picked && companyPicked && inputValid));
+        calcButton.setDisable(!b);
+        return b;
     }
 
     @FXML
