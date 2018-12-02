@@ -10,7 +10,7 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="Display.ReportWindow"
-      prefHeight="400.0" prefWidth="600.0"
+      prefHeight="800.0" prefWidth="600.0"
 alignment="CENTER" spacing="10">
     <padding>
         <Insets top="10" bottom="10" left="10" right="10"/>
@@ -18,12 +18,15 @@ alignment="CENTER" spacing="10">
 
     <Label text="Результаты постройки"/>
     <Region prefHeight="30"/>
-    <Label fx:id="reportLabel" text="Ужасно"/>
+    <Label fx:id="reportLabel"/>
     <VBox fx:id="elementsTable" alignment="CENTER" spacing="10">
         <TableView fx:id="table"/>
-        <Button text="Подробнее" onAction="#ExpandButtonClicked"/>
+        <Label text="Вещества обладающие эффектом суммации:"/>
+        <ListView fx:id="listSum" prefHeight="200"/>
+        <ListView fx:id="listHotnCold"/>
+        <Button text="Подробнее" onAction="#ExpandButtonClicked" prefHeight="200"/>
     </VBox>
-    <HBox alignment="CENTER">
+    <!--<HBox alignment="CENTER">
         <Label text="Стоимость постройки:"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Label fx:id="costLabel"/>
@@ -32,5 +35,5 @@ alignment="CENTER" spacing="10">
         <Label text="Уровень загрязнения постройки:"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Label fx:id="poluLabel"/>
-    </HBox>
+    </HBox>-->
 </VBox>

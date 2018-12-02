@@ -229,7 +229,7 @@ public class MainWindow {
     public void showReport(){
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../ReportWindow.fxml"));
             Parent root = (Parent) loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

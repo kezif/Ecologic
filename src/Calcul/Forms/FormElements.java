@@ -63,7 +63,7 @@ public class FormElements extends JFrame {
 	        while(iterator.hasNext()){
 	           Element el=(Element) iterator.next();
 	           String name="";
-	            //System.out.println("Element :" + el.getCode()+" Concentration " +el.getMass());
+	            //System.out.println("Element :" + el.getCode()+" Concentration " +el.getCm());
 	            l= new JLabel();
 	            Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 	            l.setBorder(border);

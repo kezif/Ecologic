@@ -51,7 +51,7 @@ public class CompanyInfoFrom {
         ArrayList<TableViewElement> elList = new ArrayList<>();
         for (Element el : c.getElements() ) {
             elList.add(new TableViewElement(catEl.getElementByCode(el.getCode()).getName(), el.getMass()));
-            //System.out.println(catEl.getElementByCode(el.getCode()).getName() + " Concentration - " + el.getMass());
+            //System.out.println(catEl.getElementByCode(el.getCode()).getName() + " Concentration - " + el.getCm());
         }
         final ObservableList<TableViewElement> data = FXCollections.observableArrayList(elList);
 
